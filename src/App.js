@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
@@ -6,12 +6,24 @@ function App() {
   const [imageBase64, setImageBase64] = useState(null);
   const [stocks, setStocks] = useState([]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
+  const StockSearch = (e) => {
+    const [stockname, setStockname] = useState('');
+    const [stockinfo, setStockinfo] = useState(null);
 
-    // Placeholder: connect to your backend here
-    console.log('Searching for:', search);
+
+
+    const handleSearch = async (e) => {
+      e.preventDefault();
+      const res = await fetch('http://localhost:5000/api/stock?symbol=${stockname}');
+      const stockdata = await res.json();
+      setStockinfo(data);
+    };
+    
   };
+
+
+
+
 
   return (
     <div className="App">
@@ -31,11 +43,10 @@ function App() {
             <div className="form">
               <input
                 type="text"
-                name="name"
+                value={stockname}
                 id="stocksearch"
-                placeholder="Stock Search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setStockname(e.target.value)}
+                placeholder="Enter stock symbol (TSLA, AAPL)"
               />
               <button type="submit" id="stocksearchbutton">Search</button>
             </div>
@@ -67,7 +78,7 @@ function App() {
             {stocks.length > 0 ? (
               stocks.map((stock, index) => (
                 <tr key={index} className="pad">
-                  <td>{stock.stock_name}</td>
+                  <td>{stock.stockname}</td>
                   <td>{stock.datetime}</td>
                   <td>{stock.open}</td>
                   <td>{stock.high}</td>
