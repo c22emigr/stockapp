@@ -5,20 +5,32 @@ function App() {
   const [search, setSearch] = useState('');
   const [imageBase64, setImageBase64] = useState(null);
   const [stocks, setStocks] = useState([]);
-
-  const StockSearch = (e) => {
-    const [stockname, setStockname] = useState('');
-    const [stockinfo, setStockinfo] = useState(null);
+  const [stockname, setStockname] = useState('');
+  const [stockinfo, setStockinfo] = useState(null);
 
 
 
-    const handleSearch = async (e) => {
-      e.preventDefault();
-      const res = await fetch('http://localhost:5000/api/stock?symbol=${stockname}');
-      const stockdata = await res.json();
-      setStockinfo(data);
-    };
+
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
+    try {
+    const res = await fetch(`http://localhost:5000/api/stock?symbol=${stockname}`);
+    const stockdata = await res.json();
+
+    if (stockdata.error) {
+      console.error("API error:", stockdata.error);
+      return;
+
+    }
     
+    setStockinfo(stockdata);
+    // Optional: Push to stocks table (just demo logic)
+    setStocks(stockdata);
+  } catch (err) {
+    console.error("Fetch error:", err);
+  }
   };
 
 
@@ -65,7 +77,6 @@ function App() {
         <table>
           <thead>
             <tr className="pad">
-              <th>Stock name</th>
               <th>Datetime</th>
               <th>Open</th>
               <th>High</th>
@@ -78,13 +89,12 @@ function App() {
             {stocks.length > 0 ? (
               stocks.map((stock, index) => (
                 <tr key={index} className="pad">
-                  <td>{stock.stockname}</td>
-                  <td>{stock.datetime}</td>
-                  <td>{stock.open}</td>
-                  <td>{stock.high}</td>
-                  <td>{stock.low}</td>
-                  <td>{stock.close}</td>
-                  <td>{stock.volume}</td>
+                  <td>{stock.Date}</td>
+                  <td>{stock.Open}</td>
+                  <td>{stock.High}</td>
+                  <td>{stock.Low}</td>
+                  <td>{stock.Close}</td>
+                  <td>{stock.Volume}</td>
                 </tr>
               ))
             ) : (
