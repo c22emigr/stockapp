@@ -15,7 +15,7 @@ def get_stock():
         return jsonify({'error': 'No symbol provided'}), 400
 
     try:
-        data = yf.download(symbol, period='5d', interval='1d')
+        data = yf.download(symbol, period='30d', interval='1d')
         if data.empty:
             return jsonify({'error': f'No data found for {symbol}'}), 404
             

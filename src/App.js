@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './index.css';
+import usStocks from './data/us_stocks.json';
+
 
 function App() {
   const [search, setSearch] = useState('');
@@ -7,8 +9,6 @@ function App() {
   const [stocks, setStocks] = useState([]);
   const [stockname, setStockname] = useState('');
   const [stockinfo, setStockinfo] = useState(null);
-
-
 
 
 
@@ -26,7 +26,6 @@ function App() {
     }
     
     setStockinfo(stockdata);
-    // Optional: Push to stocks table (just demo logic)
     setStocks(stockdata);
   } catch (err) {
     console.error("Fetch error:", err);
@@ -43,14 +42,13 @@ function App() {
         <img src="" alt="" className="svg" />
       </div>
 
-      <div className="text-3xl text-pink-600 font-bold underline">
+      <div className="flex justify-center text-3xl font-bold m-8">
         <h1>Invest0iQ</h1>
       </div>
-      <h1 className="text-3xl font-bold text-blue-600">Tailwind is alive 👋</h1>
       <div>
-        <form className="centrera" id="searchform" onSubmit={handleSearch}>
+        <form className="flex justify-center" id="searchform" onSubmit={handleSearch}>
           <div>
-            <h2>Browse stocks</h2>
+            <h2 className="flex justify-center">Browse stocks</h2>
 
             <div className="form">
               <input
@@ -68,12 +66,12 @@ function App() {
 
       {/* Graf skrivs ut här */}
       {imageBase64 && (
-        <div className="centrera">
+        <div className="flex justify-center">
           <img src={imageBase64} alt="price history" className="pricehistory" />
         </div>
       )}
 
-      <div className="centrera">
+      <div className="flex justify-center">
         <table>
           <thead>
             <tr className="pad">
@@ -85,7 +83,7 @@ function App() {
               <th>Volume</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="">
             {stocks.length > 0 ? (
               stocks.map((stock, index) => (
                 <tr key={index} className="pad">
