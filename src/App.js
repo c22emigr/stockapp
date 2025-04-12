@@ -9,7 +9,7 @@ function App() {
   const [stocks, setStocks] = useState([]);
   const [stockname, setStockname] = useState('');
   const [stockinfo, setStockinfo] = useState(null);
-
+  const [filteredResults, setFilteredResults] = useState([]);
 
 
   const handleSearch = async (e) => {
@@ -51,25 +51,52 @@ function App() {
             <h2 className="flex justify-center">Browse stocks</h2>
 
             <div className="form">
-              <input
+              <input               // Search input
                 type="text"
                 value={stockname}
                 id="stocksearch"
-                onChange={(e) => setStockname(e.target.value)}
-                placeholder="Enter stock symbol (TSLA, AAPL)"
+
+                onChange={(e) => {  // Fluffy search from user input
+                  const userInput = e.target.value;
+                  setStockname(userInput);
+
+                  if (userInput.length > 0) {
+                    const matches = usStocks.filter(stock =>
+                      stock.name.toLowerCase().includes(userInput.toLowerCase())
+                    );
+                    setFilteredResults(matches);
+                  } else {
+                    setFilteredResults([]);
+                  }
+                
+                  }
+                }
+                placeholder="Enter company name"
               />
+
+              {filteredResults.length > 0 && (  // Suggested results
+                <ul className="bg-white border border-gray-300 rounded mt-2 max-w-md mx-auto shadow">
+                {filteredResults.map((stock, index) => (
+                  <li
+                    key={index}
+                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => {
+                      setStockname(stock.symbol);
+                      setFilteredResults([]);
+                    }}
+                  >
+                    {stock.name} <span className="text-gray-500">({stock.symbol})</span>
+                  </li>
+                ))}
+              </ul>
+              )}
+
               <button type="submit" id="stocksearchbutton">Search</button>
             </div>
           </div>
         </form>
       </div>
 
-      {/* Graf skrivs ut här */}
-      {imageBase64 && (
-        <div className="flex justify-center">
-          <img src={imageBase64} alt="price history" className="pricehistory" />
-        </div>
-      )}
 
       <div className="flex justify-center">
         <table>
