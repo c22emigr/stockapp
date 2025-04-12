@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
+import './index.css';
 
 function App() {
   const [search, setSearch] = useState('');
@@ -43,10 +43,10 @@ function App() {
         <img src="" alt="" className="svg" />
       </div>
 
-      <div className="centrera">
+      <div className="text-3xl text-pink-600 font-bold underline">
         <h1>Invest0iQ</h1>
       </div>
-
+      <h1 className="text-3xl font-bold text-blue-600">Tailwind is alive 👋</h1>
       <div>
         <form className="centrera" id="searchform" onSubmit={handleSearch}>
           <div>
