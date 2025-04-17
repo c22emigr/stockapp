@@ -9,25 +9,41 @@ CORS(app)
 @app.route('/api/stock', methods=['GET'])
 def get_stock():
     symbol = request.args.get('symbol')
+    period = request.args.get('range', '5d')  # default to 5d
+
     if isinstance(symbol, tuple):
         symbol = symbol[0]
     if not symbol:
         return jsonify({'error': 'No symbol provided'}), 400
+    
+
+    dateinterval = {
+        '1d' : '10m',
+        '5d' : '30m',
+        '1mo' : '1h',
+        '6mo' : '1d',
+        '1y' : '1d',
+        'max' : '1wk'
+    }
+    interval = dateinterval.get(period, '1d')
 
     try:
-        data = yf.download(symbol, period='30d', interval='1d')
+        data = yf.download(symbol, period=period, interval=interval)
         if data.empty:
             return jsonify({'error': f'No data found for {symbol}'}), 404
             
         data.columns = [col[0] if isinstance(col, tuple) else col for col in data.columns]
         data.reset_index(inplace=True)
 
+        if 'Datetime' in data.columns:
+            data.rename(columns={'Datetime' : 'Date'}, inplace=True)
+        
         records = data.to_dict(orient='records')
         for row in records:
             row['stockname'] = symbol.upper()
             
             if 'Date' in row:
-                row['Date'] = str(row['Date'])  
+                row['Date'] = row['Date'].strftime('%Y-%m-%d %H:%M')
 
         return jsonify(records)
 

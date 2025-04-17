@@ -11,13 +11,14 @@ function App() {
   const [stockinfo, setStockinfo] = useState(null);
   const [filteredResults, setFilteredResults] = useState([]);
   const [DarkMode, setDarkMode] = useState(false);
+  const [range, setRange] = useState("5d");
 
   const handleSearch = async (e) => {
     e.preventDefault();
 
     try {
-    const res = await fetch(`http://localhost:5000/api/stock?symbol=${stockname}`);
-    const stockdata = await res.json();
+      const res = await fetch(`http://localhost:5000/api/stock?symbol=${stockname}&range=${range}`);
+      const stockdata = await res.json();
 
     if (stockdata.error) {
       console.error("API error:", stockdata.error);
@@ -54,9 +55,24 @@ function App() {
         <h1>Invest0iQ</h1>
       </div>
       <div>
+
+      <div className="flex gap-2 justify-center mt-4 flex-wrap">
+        {["1d", "5d", "1mo", "6mo", "1y", "max"].map((r) => (
+          <button
+            key={r}
+            type="button"
+            className={`px-3 py-1 border rounded-md text-sm ${
+              range === r ? "bg-emerald-400 text-white" : "bg-gray-200 dark:bg-gray-700 dark:text-white"
+            }`}
+            onClick={() => setRange(r)}
+          >
+            {r}
+          </button>
+        ))}
+      </div>
+
         <form className="flex justify-center mb-7 p-2" id="searchform" onSubmit={handleSearch}>
           <div>
-
             <div className="form">
               <input               // Search input
                 type="text"

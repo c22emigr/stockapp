@@ -6,8 +6,7 @@
 - [ ] Default to US market (no suffix)
 
 ## 📅 Date Range Selector
-- [ ] Add controls to select **stock price history range**:
-  - `1d`, `3d`, `5d`, `1mo`, `6mo`, `1y`, `max`
+- [ ] Add controls to select **stock price history range**: - `1d`, `3d`, `5d`, `1mo`, `6mo`, `1y`, `max`
 - [ ] Pass selected range to Flask API via query string
 - [ ] Update graph + table accordingly
 
