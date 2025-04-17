@@ -10,7 +10,7 @@ function App() {
   const [stockname, setStockname] = useState('');
   const [stockinfo, setStockinfo] = useState(null);
   const [filteredResults, setFilteredResults] = useState([]);
-
+  const [DarkMode, setDarkMode] = useState(false);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -34,27 +34,35 @@ function App() {
 
 
 
-
-
   return (
     <div className="App">
-      <div>
-        <img src="" alt="" className="svg" />
-      </div>
+    <div className={`${DarkMode ? 'dark' : ''} min-h-screen`}>
+    <div className="bg-white dark:bg-gray-900 p-2 rounded min-h-screen">
+        <div>
+          <img src="" alt="" className="svg" />
+        </div>
+      
+  <button
+    onClick={() => setDarkMode(!DarkMode)}                      // Darkmode button
+    className="bg-gray-200 dark:bg-gray-700 p-2 rounded"
+  >
+    {DarkMode ? '☀️ Light' : '🌙 Dark'}
+  </button>
 
-      <div className="flex justify-center text-3xl font-bold m-8">
+
+      <div className="flex justify-center">
         <h1>Invest0iQ</h1>
       </div>
       <div>
-        <form className="flex justify-center" id="searchform" onSubmit={handleSearch}>
+        <form className="flex justify-center mb-7 p-2" id="searchform" onSubmit={handleSearch}>
           <div>
-            <h2 className="flex justify-center">Browse stocks</h2>
 
             <div className="form">
               <input               // Search input
                 type="text"
                 value={stockname}
                 id="stocksearch"
+                className='bg-gray-200 dark:bg-gray-700 p-2 rounded border border-s-gray-300'
 
                 onChange={(e) => {  // Fluffy search from user input
                   const userInput = e.target.value;
@@ -75,7 +83,7 @@ function App() {
               />
 
               {filteredResults.length > 0 && (  // Suggested results
-                <ul className="bg-white border border-gray-300 rounded mt-2 max-w-md mx-auto shadow">
+                <ul className="">
                 {filteredResults.map((stock, index) => (
                   <li
                     key={index}
@@ -85,13 +93,14 @@ function App() {
                       setFilteredResults([]);
                     }}
                   >
-                    {stock.name} <span className="text-gray-500">({stock.symbol})</span>
+                    {stock.name} <span className="text-gray-400">({stock.symbol})</span>
                   </li>
                 ))}
               </ul>
               )}
 
-              <button type="submit" id="stocksearchbutton">Search</button>
+              <button type="submit" id="stocksearchbutton"
+              className='ml-7 border bg-gray-200 rounded border border-s-gray-300 p-1 dark:bg-gray-700 dark:text-gray-300'>Search</button>
             </div>
           </div>
         </form>
@@ -115,10 +124,10 @@ function App() {
               stocks.map((stock, index) => (
                 <tr key={index} className="pad">
                   <td>{stock.Date}</td>
-                  <td>{stock.Open}</td>
-                  <td>{stock.High}</td>
-                  <td>{stock.Low}</td>
-                  <td>{stock.Close}</td>
+                  <td>{parseFloat(stock.Open).toFixed(2)}</td>
+                  <td>{parseFloat(stock.High).toFixed(2)}</td>
+                  <td>{parseFloat(stock.Low).toFixed(2)}</td>
+                  <td>{parseFloat(stock.Close).toFixed(2)}</td>
                   <td>{stock.Volume}</td>
                 </tr>
               ))
@@ -130,6 +139,8 @@ function App() {
           </tbody>
         </table>
       </div>
+    </div>
+    </div>
     </div>
   );
 }

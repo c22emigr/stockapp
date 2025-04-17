@@ -6,58 +6,42 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap'); /* BODY */
 
 
-head {
-  font-family: 'DM Serif Display';
+@layer base {
+
+html, body {
+  @apply min-h-screen bg-white text-black dark:bg-gray-900 dark:text-white;
+}
+
+h1, h2 {
+  @apply font-serif text-3xl font-bold m-8 dark:text-gray-100
 }
 
 body {
-  margin: 0;
-  font-family: 'Manrope';
-  background-color: white;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  @apply bg-white text-black font-manrope
+
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.dark body {
+  @apply bg-gray-800 text-black font-manrope
+
 }
 
-html {
-  scroll-behavior: smooth;
+tbody {
+  @apply bg-white dark:bg-gray-900 dark:text-gray-300
 }
 
-.centrera {
-  display: flex;
-  justify-content: center;
+tr {
+  @apply dark:text-gray-100
 }
 
-.form {
-  padding: 10px;
-  border-radius: 3%;
+td {
+  @apply border border-gray-600 p-2
 }
 
-.pad {
-  padding: 20px;
-  margin: 10px;
+ul {
+  @apply bg-white dark:bg-gray-700 border dark:text-gray-300 border-gray-300 rounded mt-2 max-w-md mx-auto shadow
+}
 }
 
-th, td {
-  padding-left: 25px;
-  color: black;
-}
 
-.pricehistory {
-  width: 900px;
-  height: 500px;
-  margin-bottom: 25px;
-}
-
-#stocksearch {
-  padding: 8px;
-}
-
-#stocksearchbutton {
-  padding: 8px;
-}
 
