@@ -4,4 +4,4 @@ Uses python library yfinance to get stock data from Yahoo Finance which include 
 TSX – Toronto Stock Exchange, LSE – London Stock Exchange, NYSE, NASDAQ, AMEX.
 
 Flask server for hosting backend locally. 
-Front-end is React
+Front-end is React with tailwindcss
