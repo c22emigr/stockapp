@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './index.css';
 import usStocks from './data/us_stocks.json';
+import StockChart from './components/StockChart';
+import { ResponsiveContainer } from 'recharts';
 
 
 function App() {
@@ -114,6 +116,7 @@ function App() {
                 ))}
               </ul>
               )}
+              
 
               <button type="submit" id="stocksearchbutton"
               className='ml-7 border bg-gray-200 rounded border border-s-gray-300 p-1 dark:bg-gray-700 dark:text-gray-300'>Search</button>
@@ -122,6 +125,15 @@ function App() {
         </form>
       </div>
 
+      <div className='flex justify-center'>   
+      {stocks.length > 0 && (
+            <div className='w-full px-80'>
+              <ResponsiveContainer width="100%" height={400}>
+              <StockChart data={stocks}/>
+              </ResponsiveContainer>
+            </div>
+        )}
+      </div>
 
       <div className="flex justify-center">
         <table>
@@ -149,7 +161,7 @@ function App() {
               ))
             ) : (
               <tr>
-                <td colSpan="7">No results yet</td>
+                <td colSpan="7">No results yet ✨</td>
               </tr>
             )}
           </tbody>
