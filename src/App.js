@@ -3,6 +3,7 @@ import './index.css';
 import usStocks from './data/us_stocks.json';
 import StockChart from './components/StockChart';
 import { ResponsiveContainer } from 'recharts';
+import StockSearch from './components/StockSearch';
 
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
   const [range, setRange] = useState("5d");
 
   const handleSearch = async (e) => {
-    e.preventDefault();
+    if (e?.preventDefault) e.preventDefault(); // Runs if e is event
 
     try {
       const res = await fetch(`http://localhost:5000/api/stock?symbol=${stockname}&range=${range}`);
@@ -56,74 +57,17 @@ function App() {
       <div className="flex justify-center">
         <h1>Invest0iQ</h1>
       </div>
-      <div>
 
-      <div className="flex gap-2 justify-center mt-4 flex-wrap">
-        {["1d", "5d", "1mo", "6mo", "1y", "max"].map((r) => (
-          <button
-            key={r}
-            type="button"
-            className={`px-3 py-1 border rounded-md text-sm ${
-              range === r ? "bg-emerald-400 text-white" : "bg-gray-200 dark:bg-gray-700 dark:text-white"
-            }`}
-            onClick={() => setRange(r)}
-          >
-            {r}
-          </button>
-        ))}
-      </div>
+      <StockSearch
+        stockname={stockname}
+        setStockname={setStockname}
+        range={range}
+        setRange={setRange}
+        filteredResults={filteredResults}
+        setFilteredResults={setFilteredResults}
+        handleSearch={handleSearch}
+      />
 
-        <form className="flex justify-center mb-7 p-2" id="searchform" onSubmit={handleSearch}>
-          <div>
-            <div className="form">
-              <input               // Search input
-                type="text"
-                value={stockname}
-                id="stocksearch"
-                className='bg-gray-200 dark:bg-gray-700 p-2 rounded border border-s-gray-300'
-
-                onChange={(e) => {  // Fluffy search from user input
-                  const userInput = e.target.value;
-                  setStockname(userInput);
-
-                  if (userInput.length > 0) {
-                    const matches = usStocks.filter(stock =>
-                      stock.name.toLowerCase().includes(userInput.toLowerCase())
-                    );
-                    setFilteredResults(matches);
-                  } else {
-                    setFilteredResults([]);
-                  }
-                
-                  }
-                }
-                placeholder="Enter company name"
-              />
-
-              {filteredResults.length > 0 && (  // Suggested results
-                <ul className="">
-                {filteredResults.map((stock, index) => (
-                  <li
-                    key={index}
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => {
-                      setStockname(stock.symbol);
-                      setFilteredResults([]);
-                    }}
-                  >
-                    {stock.name} <span className="text-gray-400">({stock.symbol})</span>
-                  </li>
-                ))}
-              </ul>
-              )}
-              
-
-              <button type="submit" id="stocksearchbutton"
-              className='ml-7 border bg-gray-200 rounded border border-s-gray-300 p-1 dark:bg-gray-700 dark:text-gray-300'>Search</button>
-            </div>
-          </div>
-        </form>
-      </div>
 
       <div className='flex justify-center'>   
       {stocks.length > 0 && (
