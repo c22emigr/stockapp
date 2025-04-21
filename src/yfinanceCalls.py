@@ -18,7 +18,7 @@ def get_stock():
     
 
     dateinterval = {
-        '1d' : '10m',
+        '1d' : '15m',
         '5d' : '30m',
         '1mo' : '1h',
         '6mo' : '1d',
@@ -38,10 +38,16 @@ def get_stock():
         if 'Datetime' in data.columns:
             data.rename(columns={'Datetime' : 'Date'}, inplace=True)
         
+        if 'Close' in data.columns:
+                data['Pct_Change'] = data['Close'].pct_change().fillna(0).mul(100).round(2)
+                
+        else:
+                data['Pct_Change'] = 0
+
         records = data.to_dict(orient='records')
+
         for row in records:
             row['stockname'] = symbol.upper()
-            
             if 'Date' in row:
                 row['Date'] = row['Date'].strftime('%Y-%m-%d %H:%M')
 

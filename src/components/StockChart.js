@@ -1,4 +1,5 @@
 import React from "react";
+import ChartTooltip from "./ChartTooltip";
 import {
     LineChart, AreaChart, Line, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Brush
 } from "recharts";
@@ -18,7 +19,7 @@ export default function Stock_chart({ data }) {
           <CartesianGrid strokeDasharray="3 3"  />
           <XAxis dataKey="Date" tick={{ fontSize: 12 }} />
           <YAxis tick={{ fontSize: 12 }} domain={['auto', 'auto']} />
-          <Tooltip />
+          <Tooltip content={<ChartTooltip />}/>  {/* CUSTOM  TOOLTIP */}
           <Area type="monotone" dataKey="Close" stroke="#4ade80" fill="url(#colorClose)" strokeWidth={2} dot={false} />
           <Brush dataKey="Date" height={30} stroke="#10b981" />
         </AreaChart>

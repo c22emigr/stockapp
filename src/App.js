@@ -90,10 +90,8 @@ function App() {
           <thead>
             <tr className="pad">
               <th>Datetime</th>
-              <th>Open</th>
-              <th>High</th>
-              <th>Low</th>
               <th>Close</th>
+              <th>Change</th>
               <th>Volume</th>
             </tr>
           </thead>
@@ -102,10 +100,8 @@ function App() {
               stocks.map((stock, index) => (
                 <tr key={index} className="pad">
                   <td>{stock.Date}</td>
-                  <td>{parseFloat(stock.Open).toFixed(2)}</td>
-                  <td>{parseFloat(stock.High).toFixed(2)}</td>
-                  <td>{parseFloat(stock.Low).toFixed(2)}</td>
                   <td>{parseFloat(stock.Close).toFixed(2)}</td>
+                  <td>{parseFloat(stock.Pct_Change).toFixed(2)}</td>
                   <td>{stock.Volume}</td>
                 </tr>
               ))
