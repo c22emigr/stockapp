@@ -10,6 +10,9 @@ CORS(app)
 def get_stock():
     symbol = request.args.get('symbol')
     period = request.args.get('range', '5d')  # default to 5d
+    stock = yf.Ticker(symbol)
+    info = stock.info
+    long_name = info.get("longName", symbol.upper())  # fallback if not found
 
     if isinstance(symbol, tuple):
         symbol = symbol[0]
@@ -48,6 +51,7 @@ def get_stock():
 
         for row in records:
             row['stockname'] = symbol.upper()
+            row['stockname'] = long_name
             if 'Date' in row:
                 row['Date'] = row['Date'].strftime('%Y-%m-%d %H:%M')
 

@@ -4,6 +4,7 @@ import usStocks from './data/us_stocks.json';
 import StockChart from './components/StockChart';
 import { ResponsiveContainer } from 'recharts';
 import StockSearch from './components/StockSearch';
+import MiniDashboard from './components/MiniDashboard';
 
 
 function App() {
@@ -13,8 +14,16 @@ function App() {
   const [stockname, setStockname] = useState('');
   const [stockinfo, setStockinfo] = useState(null);
   const [filteredResults, setFilteredResults] = useState([]);
-  const [DarkMode, setDarkMode] = useState(false);
+  const [DarkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem("darkMode");
+    return saved === "true";
+  });
   const [range, setRange] = useState("5d");
+
+  {/* DARK MODE LOCAL STORAGE */}
+  useEffect(() => {
+    localStorage.setItem("darkMode", DarkMode);
+  }, [DarkMode]);
 
   {/* Fetch Stocks */}
   useEffect(() => {
@@ -71,6 +80,11 @@ function App() {
         setRange={setRange}
         filteredResults={filteredResults}
         setFilteredResults={setFilteredResults}
+      />
+
+      {/* MINI DASHBOARD */}
+      <MiniDashboard
+        stockdata={stocks}
       />
 
       {/* GRAPHS */}

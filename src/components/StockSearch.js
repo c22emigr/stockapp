@@ -30,7 +30,7 @@ export default function StockSearch({
       </div>
 
       {/* Search input*/}
-      <form className="flex justify-center mb-7 p-2" id="searchform">
+      <form className="relative flex justify-center mb-7 p-2" id="searchform">
         <div>
           <div className="form">
             <input
@@ -56,7 +56,7 @@ export default function StockSearch({
 
             {/* Suggested Results */}
             {filteredResults.length > 0 && (
-              <ul>
+              <ul className="absolute z-50 overflow-y-auto pointer-events-auto rounded shadow-md">
                 {filteredResults.map((stock, index) => (
                   <li
                     key={index}
