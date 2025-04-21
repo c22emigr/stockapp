@@ -16,8 +16,12 @@ function App() {
   const [DarkMode, setDarkMode] = useState(false);
   const [range, setRange] = useState("5d");
 
-  const handleSearch = async (e) => {
-    if (e?.preventDefault) e.preventDefault(); // Runs if e is event
+  {/* Fetch Stocks */}
+  useEffect(() => {
+  
+  if (!stockname) return; // No stockname no fetch
+
+  const fetchData = async () => {
 
     try {
       const res = await fetch(`http://localhost:5000/api/stock?symbol=${stockname}&range=${range}`);
@@ -26,16 +30,17 @@ function App() {
     if (stockdata.error) {
       console.error("API error:", stockdata.error);
       return;
-
     }
     
     setStockinfo(stockdata);
     setStocks(stockdata);
-  } catch (err) {
+    }catch (err) {
     console.error("Fetch error:", err);
-  }
+    }
   };
 
+  fetchData();
+}, [range, stockname]);
 
 
   return (
@@ -46,18 +51,19 @@ function App() {
           <img src="" alt="" className="svg" />
         </div>
       
-  <button
-    onClick={() => setDarkMode(!DarkMode)}                      // Darkmode button
-    className="bg-gray-200 dark:bg-gray-700 p-2 rounded"
-  >
-    {DarkMode ? '☀️ Light' : '🌙 Dark'}
-  </button>
+      <button
+        onClick={() => setDarkMode(!DarkMode)}                      // Darkmode button
+        className="bg-gray-200 dark:bg-gray-700 p-2 rounded"
+      >
+        {DarkMode ? '☀️ Light' : '🌙 Dark'}
+      </button>
 
 
       <div className="flex justify-center">
         <h1>Invest0iQ</h1>
       </div>
 
+      {/* Search Stocks Component */}
       <StockSearch
         stockname={stockname}
         setStockname={setStockname}
@@ -65,11 +71,10 @@ function App() {
         setRange={setRange}
         filteredResults={filteredResults}
         setFilteredResults={setFilteredResults}
-        handleSearch={handleSearch}
       />
 
-
-      <div className='flex justify-center'>   
+      {/* GRAPHS */}
+      <div className='flex justify-center'> 
       {stocks.length > 0 && (
             <div className='w-full px-80'>
               <ResponsiveContainer width="100%" height={400}>
@@ -79,6 +84,7 @@ function App() {
         )}
       </div>
 
+      {/* STOCKS DISPLAYED */}
       <div className="flex justify-center">
         <table>
           <thead>

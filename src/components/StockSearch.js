@@ -8,7 +8,6 @@ export default function StockSearch({
     setRange,
     filteredResults,
     setFilteredResults,
-    handleSearch,
 }) {
     return (
       <div>
@@ -17,16 +16,13 @@ export default function StockSearch({
         {["1d", "5d", "1mo", "6mo", "1y", "max"].map((r) => (
           <button
             key={r}
+            onClick={() => setRange(r)}
             type="button"
             className={`px-3 py-1 border rounded-md text-sm ${
               range === r
                 ? "bg-emerald-400 text-white"
                 : "bg-gray-200 dark:bg-gray-700 dark:text-white"
             }`}
-            onClick={(e) => {
-              setRange(r);
-              handleSearch(e);
-            }}
           >
             {r}
           </button>
@@ -34,7 +30,7 @@ export default function StockSearch({
       </div>
 
       {/* Search input*/}
-      <form className="flex justify-center mb-7 p-2" id="searchform" onSubmit={handleSearch}>
+      <form className="flex justify-center mb-7 p-2" id="searchform">
         <div>
           <div className="form">
             <input
@@ -68,7 +64,6 @@ export default function StockSearch({
                     onClick={() => {
                       setStockname(stock.symbol);
                       setFilteredResults([]);
-                      setTimeout(() => handleSearch(), 0);
                     }}
                   >
                     {stock.name} <span className="text-gray-400">({stock.symbol})</span>
@@ -80,10 +75,6 @@ export default function StockSearch({
             <button
               type="submit"
               id="stocksearchbutton"
-              onClick={() => {  {/* Date range buttons search when clicked */}
-                setRange("5d");
-                handleSearch();
-              }}
               className="ml-7 border bg-gray-200 rounded border border-s-gray-300 p-1 dark:bg-gray-700 dark:text-gray-300"
             >
               Search
