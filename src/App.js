@@ -16,14 +16,16 @@ function App() {
   const [filteredResults, setFilteredResults] = useState([]);
   const [DarkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem("darkMode");
-    return saved === "true";
+    if (saved !== null) return saved === "true";
   });
   const [range, setRange] = useState("5d");
+
 
   {/* DARK MODE LOCAL STORAGE */}
   useEffect(() => {
     localStorage.setItem("darkMode", DarkMode);
   }, [DarkMode]);
+
 
   {/* Fetch Stocks */}
   useEffect(() => {
@@ -54,8 +56,8 @@ function App() {
 
   return (
     <div className="App">
-    <div className={`${DarkMode ? 'dark' : ''} min-h-screen`}>
-    <div className="bg-white dark:bg-gray-900 p-2 rounded min-h-screen">
+    <div className={`${DarkMode ? 'dark' : ''} min-h-screen transition-colors duration-250`}>
+    <div className="bg-white dark:bg-gray-900 p-2 rounded min-h-screen transition-colors duration-250">
         <div>
           <img src="" alt="" className="svg" />
         </div>
