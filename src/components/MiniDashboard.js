@@ -21,7 +21,7 @@ const MiniDashboard = ({stockdata}) => {
         </div>
         <div>
         <p className="font-medium">Change</p>
-        <p className="text-xl font-bold">${change.toFixed(2)} ({changePct}%)</p>
+        <p className={`text-xl font-bold" ${isPositive ? 'text-green-500' : 'text-red-500'}`}>${change.toFixed(2)} ({changePct}%)</p>
         </div>
         <div>
         <p className="font-medium">Volume</p>
