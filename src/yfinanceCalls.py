@@ -30,6 +30,15 @@ def get_stock():
     }
     interval = dateinterval.get(period, '1d')
 
+    companyoverview = {
+        "summary" : info.get("longBusinessSummary"),
+        "sector" : info.get("sector"),
+        "industry" : info.get("industry"),
+        "website" : info.get("website"),
+        "employees" : info.get("fullTimeEmployees"),
+        "marketCap" : info.get("marketCap"),
+    }
+
     try:
         data = yf.download(symbol, period=period, interval=interval)
         if data.empty:

@@ -5,6 +5,7 @@ import StockChart from './components/StockChart';
 import { ResponsiveContainer } from 'recharts';
 import StockSearch from './components/StockSearch';
 import MiniDashboard from './components/MiniDashboard';
+import CompanyOverview from './components/CompanyOverview';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
     if (saved !== null) return saved === "true";
   });
   const [range, setRange] = useState("5d");
+  const info = stockdata[0];
 
 
   {/* DARK MODE LOCAL STORAGE */}
@@ -100,6 +102,11 @@ function App() {
         )}
       </div>
 
+      {/* COMPANY OVERVIEW */}
+      <div className='flex justify-center'>
+        {stockinfo && <CompanyOverview info={stockinfo} />}
+      </div>
+
       {/* STOCKS DISPLAYED */}
       <div className="flex justify-center">
         <table>
@@ -129,6 +136,8 @@ function App() {
           </tbody>
         </table>
       </div>
+
+
     </div>
     </div>
     </div>
