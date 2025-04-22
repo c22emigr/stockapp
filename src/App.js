@@ -93,16 +93,16 @@ function App() {
       {/* GRAPHS */}
       <div className='flex justify-center'> 
       {stocks.length > 0 && (
-            <div className='w-full px-80'>
+            <div className='w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl pl-4 mx-auto'>
               <ResponsiveContainer width="100%" height={400}>
-              <StockChart data={stocks}/>
+                <StockChart data={stocks}/>
               </ResponsiveContainer>
             </div>
         )}
       </div>
 
       {/* COMPANY OVERVIEW */}
-      <div className='flex justify-center'>
+      <div className='w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl px-4 mx-auto'>
         {stockinfo && <CompanyOverview info={stockinfo} />}
       </div>
 

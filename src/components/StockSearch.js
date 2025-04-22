@@ -18,10 +18,10 @@ export default function StockSearch({
             key={r}
             onClick={() => setRange(r)}
             type="button"
-            className={`px-3 py-1 border rounded-md text-sm ${
+            className={`px-3 py-1 border rounded-md text-sm transition-all duration-200 ${
               range === r
-                ? "bg-emerald-400 text-white"
-                : "bg-gray-200 dark:bg-gray-700 dark:text-white"
+                ? "bg-emerald-400 text-white border-gray-100 hover:scale-[1.02] active:scale-[0.98]"
+                : "bg-gray-200 dark:bg-gray-700 dark:text-white border-transparent hover:border-emerald-400 hover:scale-[1.02] active:scale-[0.98]"
             }`}
           >
             {r}
@@ -75,7 +75,7 @@ export default function StockSearch({
             <button
               type="submit"
               id="stocksearchbutton"
-              className="ml-7 border bg-gray-200 rounded border border-s-gray-300 p-1 dark:bg-gray-700 dark:text-gray-300"
+              className="ml-7 border bg-gray-200 rounded border border-s-gray-300 p-1 dark:bg-gray-700 dark:text-gray-300 hover:border-emerald-400 hover:scale-[1.02] active:scale-[0.98] transition-colors duration-250"
             >
               Search
             </button>
