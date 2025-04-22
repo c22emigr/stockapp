@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import usStocks from "../data/us_stocks.json";
 
 export default function StockSearch({
@@ -9,6 +9,30 @@ export default function StockSearch({
     filteredResults,
     setFilteredResults,
 }) {
+
+    {/* ARROW KEYS + ENTER FOR NAVIGATION */}
+    const [highlightedIndex, setHighlightedIndex] = useState(-1);
+    const handleKeyDown = (e) => {
+      if (filteredResults.length === 0) return;
+
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setHighlightedIndex((prev) => (prev + 1) % filteredResults.length);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setHighlightedIndex((prev) =>
+        prev === 0 ? filteredResults.length - 1 : prev -1
+      );
+      } else if (e.key === "Enter" && highlightedIndex >= 0) {
+        e.preventDefault();
+        const selected = filteredResults[highlightedIndex];
+        setStockname(selected.symbol);
+        setFilteredResults([]);
+      }
+
+
+    }
+
     return (
       <div>
         {/* Date Range */}
@@ -37,6 +61,7 @@ export default function StockSearch({
               type="text"
               value={stockname}
               id="stocksearch"
+              onKeyDown={handleKeyDown}
               className="bg-gray-200 dark:bg-gray-700 p-2 rounded border border-s-gray-300"
               onChange={(e) => {
                 const userInput = e.target.value;
@@ -47,6 +72,7 @@ export default function StockSearch({
                     stock.name.toLowerCase().includes(userInput.toLowerCase())
                   );
                   setFilteredResults(matches);
+                  setHighlightedIndex(-1); // Resets the highlight
                 } else {
                   setFilteredResults([]);
                 }
@@ -60,7 +86,12 @@ export default function StockSearch({
                 {filteredResults.map((stock, index) => (
                   <li
                     key={index}
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                    className={`p-2 hover:bg-gray-100 cursor-pointer ${
+                      index === highlightedIndex
+                      ? "bg-emerald-400 text-white"
+                      : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                    }`}
+                    onMouseEnter={() => setHighlightedIndex(index)}
                     onClick={() => {
                       setStockname(stock.symbol);
                       setFilteredResults([]);
