@@ -64,7 +64,10 @@ def get_stock():
             if 'Date' in row:
                 row['Date'] = row['Date'].strftime('%Y-%m-%d %H:%M')
 
-        return jsonify(records)
+        return jsonify({
+            "records": records,
+            "company": companyoverview
+        })
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

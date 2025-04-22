@@ -20,7 +20,6 @@ function App() {
     if (saved !== null) return saved === "true";
   });
   const [range, setRange] = useState("5d");
-  const info = stockdata[0];
 
 
   {/* DARK MODE LOCAL STORAGE */}
@@ -45,8 +44,8 @@ function App() {
       return;
     }
     
-    setStockinfo(stockdata);
-    setStocks(stockdata);
+    setStockinfo(stockdata.company);
+    setStocks(stockdata.records);
     }catch (err) {
     console.error("Fetch error:", err);
     }
