@@ -7,7 +7,7 @@ import StockSearch from './components/StockSearch';
 import MiniDashboard from './components/MiniDashboard';
 import CompanyOverview from './components/CompanyOverview';
 import WatchlistDropdown from './components/WatchlistDropdown';
-
+import DateRangeSelector from './components/DateRangeSelector';
 
 function App() {
   const [search, setSearch] = useState('');
@@ -59,57 +59,66 @@ function App() {
   return (
     <div className="App">
     <div className={`${DarkMode ? 'dark' : ''} min-h-screen transition-colors duration-250`}>
-    <div className="bg-white dark:bg-gray-900 p-2 rounded min-h-screen transition-colors duration-250">
-        <div>
-          <img src="" alt="" className="svg" />
-        </div>
-      
-      <button
-        onClick={() => setDarkMode(!DarkMode)}                   
-        className="bg-gray-200 dark:bg-gray-700 p-2 rounded"
-      >
-        {DarkMode ? '☀️ Light' : '🌙 Dark'}
-      </button>
 
-      {/* WATCHLIST DROPDOWN */}
-      <div className="flex gap-2 items-center justify-between mt-4">
-        <WatchlistDropdown setStockname={setStockname} />
-      </div>
-
-
-      <div className="flex justify-center">
-        <h1>Invest0iQ</h1>
+    {/* HEADER */}
+    <div className="flex justify-between items-center px-6 py-4 bg-white dark:bg-gray-900 shadow-md border-b border-gray-300 dark:border-gray-700">
+      <div className="text-xl font-bold text-emerald-500">
+        Invest0iQ
       </div>
 
       {/* Search Stocks Component */}
       <StockSearch
         stockname={stockname}
         setStockname={setStockname}
-        range={range}
-        setRange={setRange}
         filteredResults={filteredResults}
         setFilteredResults={setFilteredResults}
       />
 
-      {/* MINI DASHBOARD */}
-      <MiniDashboard
-        stockdata={stocks}
-      />
+      <div className="flex items-center gap-4">
+        <button
+          onClick={() => setDarkMode(!DarkMode)}                   
+          className="bg-gray-200 dark:bg-gray-700 p-2 rounded"
+        >
+          {DarkMode ? '☀️ Light' : '🌙 Dark'}
+        </button>
 
-      {/* GRAPHS */}
-      <div className='flex justify-center'> 
-      {stocks.length > 0 && (
-            <div className='w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl pl-4 mx-auto'>
-              <ResponsiveContainer width="100%" height={400}>
-                <StockChart data={stocks}/>
-              </ResponsiveContainer>
-            </div>
-        )}
+        {/* WATCHLIST DROPDOWN */}
+        <WatchlistDropdown setStockname={setStockname} />
       </div>
+    </div>
+
+
+    <div className="bg-white dark:bg-gray-900 p-2 min-h-screen transition-colors duration-250">
+
+    
+    {/* DATE RANGE SELECTOR */}
+    <DateRangeSelector
+      range={range}
+      setRange={setRange}
+    />
+
+    {/* MINIDASHBOARD + STOCKCHART */} 
+    <div className="flex justify-center">
+      <div className="flex flex-col lg:flex-row items-start justify-start gap-6 px-4">
+        <div className="">
+          <MiniDashboard stockdata={stocks} />
+        </div>
+          <div className='w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl pl-4'>
+          {stocks.length > 0 && (
+            <ResponsiveContainer width="100%" height={400}>
+                <StockChart data={stocks}/>
+            </ResponsiveContainer>
+          )}
+          </div>
+      </div>
+    </div>
+
 
       {/* COMPANY OVERVIEW */}
-      <div className='w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl px-4 mx-auto'>
-        {stockinfo && <CompanyOverview info={stockinfo} />}
+      <div className="flex justify-center">
+        <div className='w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl px-4 mx-auto mt-7'>
+          {stockinfo && <CompanyOverview info={stockinfo} />}
+        </div>
       </div>
 
       {/* STOCKS DISPLAYED */}

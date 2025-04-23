@@ -35,26 +35,9 @@ export default function StockSearch({
 
     return (
       <div>
-        {/* Date Range */}
-      <div className="flex gap-2 justify-center mt-4 flex-wrap">
-        {["1d", "5d", "1mo", "6mo", "1y", "max"].map((r) => (
-          <button
-            key={r}
-            onClick={() => setRange(r)}
-            type="button"
-            className={`px-3 py-1 border rounded-md text-sm transition-all duration-200 ${
-              range === r
-                ? "bg-emerald-400 text-white border-gray-100 hover:scale-[1.02] active:scale-[0.98]"
-                : "bg-gray-200 dark:bg-gray-700 dark:text-white border-transparent hover:border-emerald-400 hover:scale-[1.02] active:scale-[0.98]"
-            }`}
-          >
-            {r}
-          </button>
-        ))}
-      </div>
-
+       
       {/* Search input*/}
-      <form className="relative flex justify-center mb-7 p-2" id="searchform">
+      <form className="relative flex justify-center p-2" id="searchform">
         <div>
           <div className="form">
             <input

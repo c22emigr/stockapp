@@ -22,7 +22,7 @@ const WatchlistDropdown = ({ setStockname }) => {
     }, []);
 
     return ( 
-        <div className="relative inline-block">
+        <div className="relative inline-block text-left">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-md shadow-md"
@@ -31,8 +31,8 @@ const WatchlistDropdown = ({ setStockname }) => {
       </button>
 
       {isOpen && (
-        <div className="absolute mt-2 w-60 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50 max-h-60 overflow-y-auto">
-          <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="absolute right-0 mt-2 w-64 max-w-[calc(100vw-1rem)] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50 max-h-60 overflow-y-auto">
+          <ul className="max-h-60 overflow-y-auto divide-y divide-gray-200 dark:divide-gray-700 mt-0 pt-0">
             {watchlist.length === 0 ? (
               <li className="p-3 text-center text-gray-500 dark:text-gray-300">No favorites yet ✨</li>
             ) : (
