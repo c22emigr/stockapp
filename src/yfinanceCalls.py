@@ -59,6 +59,7 @@ def get_stock():
         records = data.to_dict(orient='records')
 
         for row in records:
+            row['symbol'] = symbol # gets symbol
             row['stockname'] = symbol.upper()
             row['stockname'] = long_name
             if 'Date' in row:

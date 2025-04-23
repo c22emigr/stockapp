@@ -1,9 +1,10 @@
 import { Loader } from "lucide-react";
 import react, { useState, useEffect } from "react";
+import { toggleFavorite } from "../utils/watchlist";
 
 const WatchlistDropdown = ({ setStockname }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [watchlist, setWatchlist] = useState([])
+    const [watchlist, setWatchlist] = useState([]);
 
     useEffect(() => {
       const updateWatchlist = () => {
@@ -35,16 +36,32 @@ const WatchlistDropdown = ({ setStockname }) => {
             {watchlist.length === 0 ? (
               <li className="p-3 text-center text-gray-500 dark:text-gray-300">No favorites yet ✨</li>
             ) : (
-              watchlist.map((stockname, idx) => (
+              watchlist.map((symbol, idx) => (
                 <li 
                   key={idx} 
                   className="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
                   onClick={() => {
-                    setStockname(stockname);
+                    setStockname(symbol);
                     setIsOpen(false);
                   }}
                   >
-                  {stockname}
+                  {symbol}
+                  <span>
+                  <button
+                    onClick={() =>  {
+                      toggleFavorite(symbol)
+
+                      const updated = JSON.parse(localStorage.getItem("watchlist")) || [];
+                      setWatchlist(updated);
+
+                      const event = new Event("watchlistUpdated");
+                      window.dispatchEvent(event);
+                    }}
+                    className="text-red-400 hover:text-red-600 text-sm ml-2"
+                  >
+                    ✖
+                  </button>
+                  </span>
                 </li>
               ))
             )}

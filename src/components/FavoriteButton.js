@@ -2,19 +2,18 @@ import React, { useEffect, useState } from "react";
 import { isFavorited, toggleFavorite } from "../utils/watchlist";
 
 
-const FavoriteButton = ({ stockname }) => {
+const FavoriteButton = ({ symbol }) => {
   const [favorited, setFavorited] = useState(false);
 
   useEffect(() => {
-    console.log("Stock name received in FavoriteButton:", stockname);
-    if (stockname) {
-    setFavorited(isFavorited(stockname));
+    if (symbol) {
+    setFavorited(isFavorited(symbol));
     }
-  }, [stockname]);
+  }, [symbol]);
 
   const handleClick = () => {
-    if (!stockname) return;
-    const newState = toggleFavorite(stockname);
+    if (!symbol) return;
+    const newState = toggleFavorite(symbol);
     setFavorited(newState);
 
     const event = new Event("watchlistUpdated");

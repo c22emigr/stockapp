@@ -12,12 +12,13 @@ const MiniDashboard = ({ stockdata }) => {
     const change = latest.Close - prev.Close;
     const changePct = ((change / prev.Close) * 100).toFixed(2);
     const isPositive = change >= 0;
+    console.log("MiniDashboard props", stockdata[0]);
 
     return (
         <div className="p-4 bg-white dark:bg-gray-800 dark:text-gray-100 rounded shadow-md w-full max-w-md mx-auto mb-7">
         <div>
             <p className="text-xl font-bold">{stockdata[0].stockname}</p>
-            <FavoriteButton stockname={stockname} />
+            <FavoriteButton symbol={stockdata[0].symbol} />
         </div>
         <div>
              <p className="font-medium">Price</p>
