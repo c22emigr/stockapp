@@ -6,6 +6,7 @@ import { ResponsiveContainer } from 'recharts';
 import StockSearch from './components/StockSearch';
 import MiniDashboard from './components/MiniDashboard';
 import CompanyOverview from './components/CompanyOverview';
+import WatchlistDropdown from './components/WatchlistDropdown';
 
 
 function App() {
@@ -64,11 +65,16 @@ function App() {
         </div>
       
       <button
-        onClick={() => setDarkMode(!DarkMode)}                      // Darkmode button
+        onClick={() => setDarkMode(!DarkMode)}                   
         className="bg-gray-200 dark:bg-gray-700 p-2 rounded"
       >
         {DarkMode ? '☀️ Light' : '🌙 Dark'}
       </button>
+
+      {/* WATCHLIST DROPDOWN */}
+      <div className="flex items-center justify-between">
+        <WatchlistDropdown />
+      </div>
 
 
       <div className="flex justify-center">
