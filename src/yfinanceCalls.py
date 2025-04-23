@@ -2,6 +2,31 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import yfinance as yf
 import pandas as pd
+import requests
+
+FINNHUB_API_KEY = 'd04kqcpr01qspgm3lpqgd04kqcpr01qspgm3lpr0'
+FINNHUB_BASE_URL = 'https://finnhub.io/api/v1'
+
+def fetch_recommendation(symbol):
+    url = f"{FINNHUB_BASE_URL}/stock/recommendation?symbol={symbol}&token={FINNHUB_API_KEY}"
+    try:
+        response = requests.get(url)
+        data = response.json()
+        if data:
+            return data[0]  # latest one
+    except Exception as e:
+        print("Recommendation error:", e)
+    return None
+
+def fetch_sentiment(symbol):
+    url = f"{FINNHUB_BASE_URL}/news-sentiment?symbol={symbol}&token={FINNHUB_API_KEY}"
+    try:
+        response = requests.get(url)
+        return response.json()
+    except Exception as e:
+        print("Sentiment error:", e)
+    return None
+
 
 app = Flask(__name__)
 CORS(app)
@@ -13,6 +38,8 @@ def get_stock():
     stock = yf.Ticker(symbol)
     info = stock.info
     long_name = info.get("longName", symbol.upper())  # fallback if not found
+    recommendation = fetch_recommendation(symbol)
+    sentiment = fetch_sentiment(symbol)
 
     if isinstance(symbol, tuple):
         symbol = symbol[0]
@@ -67,7 +94,9 @@ def get_stock():
 
         return jsonify({
             "records": records,
-            "company": companyoverview
+            "company": companyoverview,
+            "recommendation": recommendation,
+            "sentiment": sentiment
         })
 
     except Exception as e:
