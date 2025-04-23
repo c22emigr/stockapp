@@ -72,8 +72,8 @@ function App() {
       </button>
 
       {/* WATCHLIST DROPDOWN */}
-      <div className="flex items-center justify-between">
-        <WatchlistDropdown />
+      <div className="flex gap-2 items-center justify-between mt-4">
+        <WatchlistDropdown setStockname={setStockname} />
       </div>
 
 
