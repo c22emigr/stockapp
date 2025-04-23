@@ -90,36 +90,28 @@ function App() {
 
     <div className="bg-white dark:bg-gray-900 p-2 min-h-screen transition-colors duration-250">
 
-    
-    {/* DATE RANGE SELECTOR */}
-    <DateRangeSelector
-      range={range}
-      setRange={setRange}
-    />
-
     {/* MINIDASHBOARD + STOCKCHART */} 
     <div className="flex justify-center">
-      <div className="flex flex-col lg:flex-row items-start justify-start gap-6 px-4">
-        <div className="">
+      <div className="flex flex-col lg:flex-row items-start justify-start gap-6 mt-7 items-start">
+        <div className="self-start">
           <MiniDashboard stockdata={stocks} />
+          {stockinfo && <CompanyOverview info={stockinfo} />}
         </div>
-          <div className='w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl pl-4'>
+
+          <div className='w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl pl-4 self-start'>
           {stocks.length > 0 && (
             <ResponsiveContainer width="100%" height={400}>
                 <StockChart data={stocks}/>
             </ResponsiveContainer>
           )}
+          {/* DATE RANGE SELECTOR */}
+          <DateRangeSelector
+            range={range}
+            setRange={setRange}
+          />
           </div>
       </div>
     </div>
-
-
-      {/* COMPANY OVERVIEW */}
-      <div className="flex justify-center">
-        <div className='w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl px-4 mx-auto mt-7'>
-          {stockinfo && <CompanyOverview info={stockinfo} />}
-        </div>
-      </div>
 
       {/* STOCKS DISPLAYED */}
       <div className="flex justify-center">
