@@ -89,7 +89,7 @@ export default function StockSearch({
             <button
               type="submit"
               id="stocksearchbutton"
-              className="ml-7 border bg-gray-200 rounded border border-s-gray-300 p-1 dark:bg-gray-700 dark:text-gray-300 hover:border-emerald-400 hover:scale-[1.02] active:scale-[0.98] transition-colors duration-250"
+              className="sr-only"
             >
               Search
             </button>

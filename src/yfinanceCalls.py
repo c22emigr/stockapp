@@ -4,8 +4,10 @@ import yfinance as yf
 import pandas as pd
 import requests
 
+
 FINNHUB_API_KEY = 'd04kqcpr01qspgm3lpqgd04kqcpr01qspgm3lpr0'
 FINNHUB_BASE_URL = 'https://finnhub.io/api/v1'
+
 
 def fetch_recommendation(symbol):
     url = f"{FINNHUB_BASE_URL}/stock/recommendation?symbol={symbol}&token={FINNHUB_API_KEY}"
@@ -35,11 +37,12 @@ CORS(app)
 def get_stock():
     symbol = request.args.get('symbol')
     period = request.args.get('range', '5d')  # default to 5d
+
     stock = yf.Ticker(symbol)
     info = stock.info
+    
     long_name = info.get("longName", symbol.upper())  # fallback if not found
     recommendation = fetch_recommendation(symbol)
-    sentiment = fetch_sentiment(symbol)
 
     if isinstance(symbol, tuple):
         symbol = symbol[0]
@@ -64,6 +67,13 @@ def get_stock():
         "website" : info.get("website"),
         "employees" : info.get("fullTimeEmployees"),
         "marketCap" : info.get("marketCap"),
+    }
+
+    extra_stats = {
+        "fiftyTwoWeekHigh": info.get("fiftyTwoWeekHigh"),
+        "fiftyTwoWeekLow": info.get("fiftyTwoWeekLow"),
+        "dividendYield": info.get("dividendYield"),
+        "beta": info.get("beta")
     }
 
     try:
@@ -95,8 +105,8 @@ def get_stock():
         return jsonify({
             "records": records,
             "company": companyoverview,
-            "recommendation": recommendation,
-            "sentiment": sentiment
+            "recommendation": recommendation, 
+            "extras" : extra_stats
         })
 
     except Exception as e:

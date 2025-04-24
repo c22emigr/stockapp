@@ -29,7 +29,7 @@ const FavoriteButton = ({ symbol }) => {
           : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white"
       }`}
     >
-      {favorited ? "★ Favorited" : "☆ Add to Watchlist"}
+      {favorited ? "Favorited" : "Add to Watchlist"}
     </button>
   );
 };

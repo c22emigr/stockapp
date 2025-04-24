@@ -9,7 +9,7 @@ import CompanyOverview from './components/CompanyOverview';
 import WatchlistDropdown from './components/WatchlistDropdown';
 import DateRangeSelector from './components/DateRangeSelector';
 import RecommendationCard from './components/RecommendationCard';
-import SentimentCard from './components/SentimentCard';
+import MiniInfoCard from './components/MiniInfoCard';
 
 function App() {
   const [search, setSearch] = useState('');
@@ -24,7 +24,9 @@ function App() {
   });
   const [range, setRange] = useState("5d");
   const [recommendation, setRecommendation] = useState(null);
-  const [sentiment, setSentiment] = useState(null);
+  const [finnhubData, setFinnhubData] = useState(null);
+  const [extras, setExtras] = useState(null);
+
 
 
   {/* DARK MODE LOCAL STORAGE */}
@@ -51,10 +53,10 @@ function App() {
     
     setStockinfo(stockdata.company);
     setStocks(stockdata.records);
+    setExtras(stockdata.extras)
 
     // For FINNHUB
     setRecommendation(stockdata.recommendation);
-    setSentiment(stockdata.sentiment);
     }catch (err) {
     console.error("Fetch error:", err);
     }
@@ -122,7 +124,7 @@ function App() {
            {/* SIDE CARDS */}
         <div className="flex flex-col gap-4 w-fit">
           <RecommendationCard recommendation={recommendation} />
-          <SentimentCard sentiment={sentiment} />
+           <MiniInfoCard data={extras} />
         </div>
       </div>
     </div>
