@@ -5,6 +5,13 @@ TSX – Toronto Stock Exchange, LSE – London Stock Exchange, NYSE, NASDAQ, AME
 Flask server for hosting backend locally. 
 Front-end is React with tailwindcss
 
+Features to be added:
+  Stock Comparison
+  Currency Conversions
+  Fullscreen Graphs
+  Fetch Market News
+  
+
 Demo Soon.
 
 ![image](https://github.com/user-attachments/assets/cd8a60f3-6bd2-4aff-ba57-4a060b9c3f14)
