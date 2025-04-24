@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import {ChevronDown, ChevronUp} from "lucide-react";
 import {motion, AnimatePresence} from "framer-motion";
-
+import {
+    Dialog,
+    DialogTrigger,
+    DialogContent,
+    DialogHeader,
+    DialogTitle
+  } from "./ui/dialog";
+import { Button } from "./ui/button";
 
 const CompanyOverview = ({info}) => {
     const [showSummary, setShowSummary] = useState(false);
@@ -17,24 +23,32 @@ const CompanyOverview = ({info}) => {
         marketCap
     } = info;
 
+    const preview = summary?.split(". ").slice(0, 2).join(". ") + ".";
+
     return (
     <div className="bg-white dark:bg-[#232a31] dark:text-white p-4 mb-7 rounded shadow-md text-sm w-full max-w-[300px]">
     
     {/* EXPANDABLE BUTTON FOR SUMMARY */}
-    <button
-        onClick={() => setShowSummary(!showSummary)}
-        className="text-gray-100 mb-2 flex items-center gap-2 px-3 py-1 w-fit min-w-[220px] hover:text-emerald-400 transition-colors duration-250 hover:scale-[1.02] active:scale-[0.98]"
-    >
-        {showSummary ? (
-            <>
-            <ChevronUp size={16} /> Hide Summary
-            </>
-        ) : (
-            <>
-            <ChevronDown size={16} /> Show Company Summary
-            </>
-        )}
-    </button>
+
+        <Dialog>
+        <div className="space-y-2 mb-3">
+            <p>{preview}</p>
+            <DialogTrigger asChild>
+            <Button variant="neutral" size="sm">
+                Read Full Summary
+            </Button>
+            </DialogTrigger>
+        </div>
+
+        <DialogContent className="max-w-2xl bg-white text-slate-900 dark:bg-[#1d2228] dark:text-gray-300 p-6 rounded-md shadow-lg border border-gray-200 dark:border-gray-700">
+            <DialogHeader>
+            <DialogTitle className="text-base font-semibold mb-3 tracking-tight text-emerald-600 dark:text-emerald-400">{longName}Company Summary</DialogTitle>
+            </DialogHeader>
+            <p className="text-sm leading-relaxed max-h-[70vh] overflow-y-auto whitespace-pre-line">
+            {summary}
+            </p>
+        </DialogContent>
+        </Dialog>
 
         <AnimatePresence initial={false}>
         {showSummary && ( 

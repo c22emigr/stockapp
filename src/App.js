@@ -32,6 +32,7 @@ function App() {
   {/* DARK MODE LOCAL STORAGE */}
   useEffect(() => {
     localStorage.setItem("darkMode", DarkMode);
+    document.documentElement.classList.toggle("dark", DarkMode);
   }, [DarkMode]);
 
 
