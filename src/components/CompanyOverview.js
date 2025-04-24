@@ -18,7 +18,7 @@ const CompanyOverview = ({info}) => {
     } = info;
 
     return (
-    <div className="bg-white dark:bg-gray-800 dark:text-white p-4 mb-7 rounded shadow-md text-sm w-full max-w-[300px]">
+    <div className="bg-white dark:bg-[#232a31] dark:text-white p-4 mb-7 rounded shadow-md text-sm w-full max-w-[300px]">
     
     {/* EXPANDABLE BUTTON FOR SUMMARY */}
     <button

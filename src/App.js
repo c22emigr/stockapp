@@ -69,7 +69,7 @@ function App() {
     <div className={`${DarkMode ? 'dark' : ''} min-h-screen transition-colors duration-250`}>
 
     {/* HEADER */}
-    <div className="flex justify-between items-center px-6 py-4 bg-white dark:bg-gray-900 shadow-md border-b border-gray-300 dark:border-gray-700">
+    <div className="flex justify-between items-center px-6 py-4 bg-white dark:bg-[#1d2228] shadow-md border-b border-gray-300 dark:border-gray-700">
       <div className="text-xl font-bold text-emerald-500">
         Invest0iQ
       </div>
@@ -96,7 +96,7 @@ function App() {
     </div>
 
 
-    <div className="bg-white dark:bg-gray-900 p-2 min-h-screen transition-colors duration-250">
+    <div className="bg-white dark:bg-[#1d2228] p-2 min-h-screen transition-colors duration-250">
 
     {/* MINIDASHBOARD + STOCKCHART */} 
     <div className="flex justify-center">
@@ -126,37 +126,6 @@ function App() {
         </div>
       </div>
     </div>
-
-      {/* STOCKS DISPLAYED */}
-      <div className="flex justify-center">
-        <table>
-          <thead>
-            <tr className="pad">
-              <th>Datetime</th>
-              <th>Close</th>
-              <th>Change</th>
-              <th>Volume</th>
-            </tr>
-          </thead>
-          <tbody className="">
-            {stocks.length > 0 ? (
-              stocks.map((stock, index) => (
-                <tr key={index} className="pad">
-                  <td>{stock.Date}</td>
-                  <td>{parseFloat(stock.Close).toFixed(2)}</td>
-                  <td>{parseFloat(stock.Pct_Change).toFixed(2)}</td>
-                  <td>{stock.Volume}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7">No results yet ✨</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-
 
     </div>
     </div>
