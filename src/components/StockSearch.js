@@ -54,7 +54,20 @@ export default function StockSearch({
                 setStockname(userInput);
 
                 if (userInput.length > 0) {
-                  const matches = usStocks.filter((stock) =>
+                  const matches = usStocks
+                  .filter((stock) => {
+                    if (selectedMarket === "" && stock.market !== "US") return false;
+                    if (selectedMarket === ".ST" && stock.market !== "SE") return false;
+                    if (selectedMarket === ".T" && stock.market !== "JP") return false;
+                    if (selectedMarket === ".TO" && stock.market !== "CA") return false;
+                    if (selectedMarket === ".F" && stock.market !== "GE") return false;
+                    if (selectedMarket === ".L" && stock.market !== "GB") return false;
+                    if (selectedMarket === ".PA" && stock.market !== "FR") return false;
+                    if (selectedMarket === ".AX" && stock.market !== "AU") return false;
+                    if (selectedMarket === ".HK" && stock.market !== "HK") return false;
+                    return true;
+                  })
+                  .filter((stock) =>
                     stock.name.toLowerCase().includes(userInput.toLowerCase())
                   );
                   setFilteredResults(matches);

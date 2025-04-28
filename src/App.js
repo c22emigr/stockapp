@@ -26,7 +26,10 @@ function App() {
   const [recommendation, setRecommendation] = useState(null);
   const [finnhubData, setFinnhubData] = useState(null);
   const [extras, setExtras] = useState(null);
-  const [selectedMarket, setSelectedMarket] = useState('');
+  const [selectedMarket, setSelectedMarket] = useState(() => {
+    const saved = localStorage.getItem("selectedMarket");
+    return saved || "";
+  });
 
 
 
@@ -35,6 +38,11 @@ function App() {
     localStorage.setItem("darkMode", DarkMode);
     document.documentElement.classList.toggle("dark", DarkMode); 
   }, [DarkMode]);
+
+  {/* STOCK MARKET SELECTOR LOCAL STORAGE */}
+  useEffect(() => {
+    localStorage.setItem("selectedMarket", selectedMarket);
+  }, [selectedMarket]);
 
 
   {/* Fetch Stocks */}
@@ -45,7 +53,7 @@ function App() {
   const fetchData = async () => {
 
     try {
-      const res = await fetch(`http://localhost:5000/api/stock?symbol=${selectedMarket}${stockname}&range=${range}`);
+      const res = await fetch(`http://localhost:5000/api/stock?symbol=${stockname}${selectedMarket}&range=${range}`);
       const stockdata = await res.json();
 
     if (stockdata.error) {
