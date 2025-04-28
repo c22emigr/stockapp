@@ -2,15 +2,15 @@ import React from "react";
 
 export default function StockMarketSelector({ selectedMarket, setSelectedMarket }) {
   const markets = [
-    { name: "United States", suffix: "" },
-    { name: "Sweden", suffix: ".ST" },
-    { name: "Canada", suffix: ".TO" },
-    { name: "Germany", suffix: ".F" },
-    { name: "United Kingdom", suffix: ".L" },
-    { name: "France", suffix: ".PA" },
-    { name: "Japan", suffix: ".T" },
-    { name: "Australia", suffix: ".AX" },
-    { name: "Hong Kong", suffix: ".HK" },
+    { name: "NASDAQ", suffix: "" },
+    { name: "Stockholmsbörsen", suffix: ".ST" },
+    { name: "Toronto Stock Exchange", suffix: ".TO" },
+    { name: "Frankfurt Stock Exchange", suffix: ".F" },
+    { name: "London Stock Exchange", suffix: ".L" },
+    { name: "Paris Stock Exchange", suffix: ".PA" },
+    { name: "Tokyo Stock Exchange", suffix: ".T" },
+    { name: "Australian Securities Exchange", suffix: ".AX" },
+    { name: "Hong Kong Stock Exchange", suffix: ".HK" },
   ];
 
   
@@ -18,7 +18,7 @@ export default function StockMarketSelector({ selectedMarket, setSelectedMarket 
     <select
       value={selectedMarket}
       onChange={(e) => setSelectedMarket(e.target.value)}
-      className="bg-gray-200 dark:bg-gray-700 p-2 rounded text-black dark:text-white"
+      className="bg-gray-200 dark:bg-gray-700 p-2 rounded w-28 text-black dark:text-white"
     >
       {markets.map((market) => (
         <option key={market.suffix} value={market.suffix}>

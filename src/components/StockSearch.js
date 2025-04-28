@@ -78,22 +78,22 @@ export default function StockSearch({
               }}
               placeholder="Enter company name"
             />
-            <div className="flex items-center gap-2 mt-2">
+            <div className="inline mt-2 ml-7">
               <span className="text-gray-500 dark:text-gray-400 text-sm">
-                Selected Market: {selectedMarket || "None"}
+                <StockMarketSelector selectedMarket={selectedMarket} setSelectedMarket={setSelectedMarket} />
               </span>
             </div>
 
 
             {/* Suggested Results */}
             {filteredResults.length > 0 && (
-              <ul className="absolute z-50 overflow-y-auto pointer-events-auto rounded shadow-md">
+              <ul className="absolute z-50 overflow-y-auto w-full max-h-96 scroll-smooth pointer-events-auto rounded shadow-md">
                 {filteredResults.map((stock, index) => (
                   <li
                     key={index}
-                    className={`p-2 hover:bg-gray-100 cursor-pointer ${
+                    className={`p-2 dark:text-white text-black cursor-pointer text-sm ${
                       index === highlightedIndex
-                      ? "bg-emerald-400 text-white"
+                      ? "bg-emerald-400 text-gray-700"
                       : "hover:bg-gray-100 dark:hover:bg-gray-700"
                     }`}
                     onMouseEnter={() => setHighlightedIndex(index)}
@@ -102,11 +102,12 @@ export default function StockSearch({
                       setFilteredResults([]);
                     }}
                   >
-                    {stock.name} <span className="text-gray-400">({stock.symbol})</span>
+                    {stock.name} <span className="text-gray-900 dark:text-gray-100">({stock.symbol})</span>
                   </li>
                 ))}
               </ul>
             )}
+            
 
             <button
               type="submit"
@@ -115,7 +116,6 @@ export default function StockSearch({
             >
               Search
             </button>
-            <StockMarketSelector selectedMarket={selectedMarket} setSelectedMarket={setSelectedMarket} />
           </div>
         </div>
 
