@@ -4,10 +4,10 @@ import StockMarketSelector from "./StockMarketSelector";
 import Flag from 'react-world-flags';
 
 export default function StockSearch({
-    stockname,
-    setStockname,
-    range, 
-    setRange,
+    searchInput,
+    setSearchInput,
+    selectedSymbol,
+    setSelectedSymbol,
     filteredResults,
     setFilteredResults,
     selectedMarket, 
@@ -28,6 +28,23 @@ export default function StockSearch({
       default: return "US"; // fallback
     }
   }
+
+  function filterStocks(input) {
+    if (!input) return [];
+
+    return usStocks.filter(stock => {
+    if (selectedMarket === "" && stock.market !== "US") return false;
+    if (selectedMarket === ".ST" && stock.market !== "SE") return false;
+    if (selectedMarket === ".T" && stock.market !== "JP") return false;
+    if (selectedMarket === ".TO" && stock.market !== "CA") return false;
+    if (selectedMarket === ".F" && stock.market !== "DE") return false;
+    if (selectedMarket === ".L" && stock.market !== "GB") return false;
+    if (selectedMarket === ".PA" && stock.market !== "FR") return false;
+    if (selectedMarket === ".AX" && stock.market !== "AU") return false;
+    if (selectedMarket === ".HK" && stock.market !== "HK") return false;
+    return stock.name.toLowerCase().includes(input.toLowerCase());
+    });
+  }
   
 
     {/* ARROW KEYS + ENTER FOR NAVIGATION */}
@@ -46,7 +63,8 @@ export default function StockSearch({
       } else if (e.key === "Enter" && highlightedIndex >= 0) {
         e.preventDefault();
         const selected = filteredResults[highlightedIndex];
-        setStockname(selected.symbol);
+        setSearchInput(selected.name); // Shows name
+        setSelectedSymbol(selected.symbol); // Symbol thats sent to API
         setFilteredResults([]);
       }
 
@@ -62,14 +80,15 @@ export default function StockSearch({
           <div className="form">
             <input
               type="text"
-              value={stockname}
+              value={searchInput}
               id="stocksearch"
               onKeyDown={handleKeyDown}
               className="bg-gray-200 dark:bg-gray-700 p-2 rounded border border-s-gray-300"
               onChange={(e) => {
                 const userInput = e.target.value;
-                setStockname(userInput);
-
+                setSearchInput(userInput);
+                setFilteredResults(filterStocks(userInput));
+                setHighlightedIndex(-1);
                 if (userInput.length > 0) {
                   const matches = usStocks
                   .filter((stock) => {
@@ -97,7 +116,15 @@ export default function StockSearch({
             />
             <div className="inline mt-2 ml-7">
               <span className="text-gray-500 dark:text-gray-400 text-sm">
-                <StockMarketSelector selectedMarket={selectedMarket} setSelectedMarket={setSelectedMarket} />
+                <StockMarketSelector 
+                  selectedMarket={selectedMarket} 
+                  onMarketChange={(newMarket) => {
+                    setSelectedMarket(newMarket); 
+                    setSearchInput("");             // clears the input
+                    setSelectedSymbol("");          // clears symbols
+                    setFilteredResults([]);         // clears search results
+                  }}
+                  />
               </span>
             </div>
 
@@ -115,7 +142,8 @@ export default function StockSearch({
                     }`}
                     onMouseEnter={() => setHighlightedIndex(index)}
                     onClick={() => {
-                      setStockname(stock.symbol);
+                      setSearchInput(stock.name);
+                      setSelectedSymbol(stock.symbol);
                       setFilteredResults([]);
                     }}
                   >

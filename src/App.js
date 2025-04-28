@@ -12,7 +12,8 @@ import RecommendationCard from './components/RecommendationCard';
 import MiniInfoCard from './components/MiniInfoCard';
 
 function App() {
-  const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [selectedSymbol, setSelectedSymbol] = useState('');
   const [imageBase64, setImageBase64] = useState(null);
   const [stocks, setStocks] = useState([]);
   const [stockname, setStockname] = useState('');
@@ -30,7 +31,12 @@ function App() {
     const saved = localStorage.getItem("selectedMarket");
     return saved || "";
   });
-
+  const handleMarketChange = (newMarket) => {
+    setSelectedMarket(newMarket);
+    setSearchInput("");          // clears searchbar
+    setSelectedSymbol("");       // clears the selected stock
+    setFilteredResults([]);       // clears suggestions
+  };
 
 
   {/* DARK MODE LOCAL STORAGE */}
@@ -48,12 +54,12 @@ function App() {
   {/* Fetch Stocks */}
   useEffect(() => {
   
-  if (!stockname) return; // No stockname no fetch
+  if (!selectedSymbol) return; // No stockname no fetch
 
   const fetchData = async () => {
 
     try {
-      const res = await fetch(`http://localhost:5000/api/stock?symbol=${stockname}${selectedMarket}&range=${range}`);
+      const res = await fetch(`http://localhost:5000/api/stock?symbol=${selectedSymbol}${selectedMarket}&range=${range}`);
       const stockdata = await res.json();
 
     if (stockdata.error) {
@@ -73,7 +79,7 @@ function App() {
   };
 
   fetchData();
-}, [range, stockname, selectedMarket]);
+}, [range, selectedSymbol, selectedMarket]);
 
 
   return (
@@ -89,12 +95,15 @@ function App() {
       {/* Search Stocks Component */}
       
       <StockSearch
-        stockname={stockname}
-        setStockname={setStockname}
+        searchInput={searchInput}
+        setSearchInput={setSearchInput}
+        selectedSymbol={selectedSymbol}
+        setSelectedSymbol={setSelectedSymbol}
         filteredResults={filteredResults}
         setFilteredResults={setFilteredResults}
         selectedMarket={selectedMarket}        // Change stockmarkets
         setSelectedMarket={setSelectedMarket}  
+        onMarketChange={handleMarketChange}
       />
 
       <div className="flex items-center gap-4">

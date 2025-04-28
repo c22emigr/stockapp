@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function StockMarketSelector({ selectedMarket, setSelectedMarket }) {
+export default function StockMarketSelector({ selectedMarket, onMarketChange }) {
   const markets = [
     { name: "NASDAQ", suffix: "" },
     { name: "Stockholmsbörsen", suffix: ".ST" },
@@ -17,7 +17,7 @@ export default function StockMarketSelector({ selectedMarket, setSelectedMarket 
   return (
     <select
       value={selectedMarket}
-      onChange={(e) => setSelectedMarket(e.target.value)}
+      onChange={(e) => onMarketChange(e.target.value)}
       className="bg-gray-200 dark:bg-gray-700 p-2 rounded w-28 text-black dark:text-white"
     >
       {markets.map((market) => (
