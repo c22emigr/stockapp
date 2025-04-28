@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import usStocks from "../data/us_stocks.json";
 import StockMarketSelector from "./StockMarketSelector";
+import Flag from 'react-world-flags';
 
 export default function StockSearch({
     stockname,
@@ -12,6 +13,22 @@ export default function StockSearch({
     selectedMarket, 
     setSelectedMarket
 }) {
+
+  function getCountryCodeFromMarket(market) {
+    switch(market) {
+      case "US": return "US";
+      case "SE": return "SE";
+      case "JP": return "JP";
+      case "CA": return "CA";
+      case "DE": return "DE";
+      case "GB": return "GB";
+      case "FR": return "FR";
+      case "AU": return "AU";
+      case "HK": return "HK";
+      default: return "US"; // fallback
+    }
+  }
+  
 
     {/* ARROW KEYS + ENTER FOR NAVIGATION */}
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -60,7 +77,7 @@ export default function StockSearch({
                     if (selectedMarket === ".ST" && stock.market !== "SE") return false;
                     if (selectedMarket === ".T" && stock.market !== "JP") return false;
                     if (selectedMarket === ".TO" && stock.market !== "CA") return false;
-                    if (selectedMarket === ".F" && stock.market !== "GE") return false;
+                    if (selectedMarket === ".F" && stock.market !== "DE") return false;
                     if (selectedMarket === ".L" && stock.market !== "GB") return false;
                     if (selectedMarket === ".PA" && stock.market !== "FR") return false;
                     if (selectedMarket === ".AX" && stock.market !== "AU") return false;
@@ -102,7 +119,14 @@ export default function StockSearch({
                       setFilteredResults([]);
                     }}
                   >
-                    {stock.name} <span className="text-gray-900 dark:text-gray-100">({stock.symbol})</span>
+                    <div className="flex items-center gap-2">
+                      {/* Flag here */}
+                      <Flag
+                        code={getCountryCodeFromMarket(stock.market)}
+                        style={{ width: 20 }}
+                      />
+                      {stock.name} <span className="text-gray-900 dark:text-gray-100">({stock.symbol})</span>
+                    </div>
                   </li>
                 ))}
               </ul>
