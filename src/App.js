@@ -26,13 +26,14 @@ function App() {
   const [recommendation, setRecommendation] = useState(null);
   const [finnhubData, setFinnhubData] = useState(null);
   const [extras, setExtras] = useState(null);
+  const [selectedMarket, setSelectedMarket] = useState('');
 
 
 
   {/* DARK MODE LOCAL STORAGE */}
   useEffect(() => {
     localStorage.setItem("darkMode", DarkMode);
-    document.documentElement.classList.toggle("dark", DarkMode);
+    document.documentElement.classList.toggle("dark", DarkMode); 
   }, [DarkMode]);
 
 
@@ -44,7 +45,7 @@ function App() {
   const fetchData = async () => {
 
     try {
-      const res = await fetch(`http://localhost:5000/api/stock?symbol=${stockname}&range=${range}`);
+      const res = await fetch(`http://localhost:5000/api/stock?symbol=${selectedMarket}${stockname}&range=${range}`);
       const stockdata = await res.json();
 
     if (stockdata.error) {
@@ -64,7 +65,7 @@ function App() {
   };
 
   fetchData();
-}, [range, stockname]);
+}, [range, stockname, selectedMarket]);
 
 
   return (
@@ -78,11 +79,14 @@ function App() {
       </div>
 
       {/* Search Stocks Component */}
+      
       <StockSearch
         stockname={stockname}
         setStockname={setStockname}
         filteredResults={filteredResults}
         setFilteredResults={setFilteredResults}
+        selectedMarket={selectedMarket}        // Change stockmarkets
+        setSelectedMarket={setSelectedMarket}  
       />
 
       <div className="flex items-center gap-4">

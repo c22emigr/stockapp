@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import usStocks from "../data/us_stocks.json";
+import StockMarketSelector from "./StockMarketSelector";
 
 export default function StockSearch({
     stockname,
@@ -8,6 +9,8 @@ export default function StockSearch({
     setRange,
     filteredResults,
     setFilteredResults,
+    selectedMarket, 
+    setSelectedMarket
 }) {
 
     {/* ARROW KEYS + ENTER FOR NAVIGATION */}
@@ -62,6 +65,12 @@ export default function StockSearch({
               }}
               placeholder="Enter company name"
             />
+            <div className="flex items-center gap-2 mt-2">
+              <span className="text-gray-500 dark:text-gray-400 text-sm">
+                Selected Market: {selectedMarket || "None"}
+              </span>
+            </div>
+
 
             {/* Suggested Results */}
             {filteredResults.length > 0 && (
@@ -93,6 +102,7 @@ export default function StockSearch({
             >
               Search
             </button>
+            <StockMarketSelector selectedMarket={selectedMarket} setSelectedMarket={setSelectedMarket} />
           </div>
         </div>
 

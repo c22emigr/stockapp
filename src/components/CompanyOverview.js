@@ -40,11 +40,11 @@ const CompanyOverview = ({info}) => {
             </DialogTrigger>
         </div>
 
-        <DialogContent className="max-w-2xl bg-white text-slate-900 dark:bg-[#1d2228] dark:text-gray-300 p-6 rounded-md shadow-lg border border-gray-200 dark:border-gray-700">
+        <DialogContent className="max-w-2xl bg-white text-slate-900 dark:bg-[#1d2228] dark:text-white p-6 rounded-md shadow-lg border border-gray-200 dark:border-gray-700">
             <DialogHeader>
-            <DialogTitle className="text-base font-semibold mb-3 tracking-tight text-emerald-600 dark:text-emerald-400">{longName}Company Summary</DialogTitle>
+            <DialogTitle className="text-2xl font-semibold mb-7 mt-1 tracking-tight text-emerald-600 dark:text-gray-100">{longName}Company Summary</DialogTitle>
             </DialogHeader>
-            <p className="text-sm leading-relaxed max-h-[70vh] overflow-y-auto whitespace-pre-line">
+            <p className="text-sm leading-relaxed tracking-wide max-h-[70vh] overflow-y-auto whitespace-pre-line">
             {summary}
             </p>
         </DialogContent>
