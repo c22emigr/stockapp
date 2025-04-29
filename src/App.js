@@ -115,7 +115,7 @@ function App() {
         </button>
 
         {/* WATCHLIST DROPDOWN */}
-        <WatchlistDropdown setStockname={setStockname} />
+        <WatchlistDropdown setSelectedSymbol={setSelectedSymbol} />
       </div>
     </div>
 

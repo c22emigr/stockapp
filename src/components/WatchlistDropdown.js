@@ -3,7 +3,7 @@ import react, { useState, useEffect } from "react";
 import { toggleFavorite } from "../utils/watchlist";
 import usStocks from "../data/us_stocks.json";
 
-const WatchlistDropdown = ({ setStockname }) => {
+const WatchlistDropdown = ({ setSelectedSymbol }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [watchlist, setWatchlist] = useState([]);
 
@@ -21,6 +21,21 @@ const WatchlistDropdown = ({ setStockname }) => {
         window.removeEventListener("watchlistUpdated", updateWatchlist);
       };
     }, []);
+
+    const handleSelectStock = (symbol) => {
+      const fullStock = usStocks.find(stock => stock.symbol === symbol);
+      if (fullStock) {
+        const fullSymbol =
+          fullStock.market && fullStock.market !== "US"
+            ? `${fullStock.symbol}.${fullStock.market}`
+            : fullStock.symbol;
+        setSelectedSymbol(fullSymbol);
+        setIsOpen(false);
+      } else {
+        setSelectedSymbol(symbol);
+        setIsOpen(false);
+      }
+    };
 
     return ( 
         <div className="relative inline-block text-left">
@@ -41,10 +56,7 @@ const WatchlistDropdown = ({ setStockname }) => {
                 <li 
                   key={idx} 
                   className="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-                  onClick={() => {
-                    setStockname(item.symbol);
-                    setIsOpen(false);
-                  }}
+                  onClick={() => handleSelectStock(item.symbol)}
                   >
                   {item.name || item.symbol} {/* SHOW COMPANY NAME */}
                   <span>
@@ -52,8 +64,7 @@ const WatchlistDropdown = ({ setStockname }) => {
                     onClick={(e) => {
                       e.stopPropagation(); // Prevents li click
                       const fullStock = usStocks.find(stock => stock.symbol === item.symbol);
-                      const fullName = fullStock ? fullStock.name : item.symbol || item.symbol;
-
+                      const fullName = fullStock ? fullStock.name : item.symbol;
                       const updated = toggleFavorite(item.symbol, fullName);
                       setWatchlist(updated);
                       window.dispatchEvent(new Event("watchlistUpdated"));

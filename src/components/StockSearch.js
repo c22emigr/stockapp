@@ -48,7 +48,7 @@ export default function StockSearch({
 
   const popularStocksByMarket = {
     "":[ // NASDAQ
-    { name: "Apple", symbol: "AAPL", market: "US" },
+    { name: "Apple Inc.", symbol: "AAPL", market: "US" },
     { name: "Microsoft", symbol: "MSFT", market: "US" },
     { name: "NVIDIA", symbol: "NVDA", market: "US" },
     { name: "Tesla, Inc.", symbol: "TSLA", market: "US" },

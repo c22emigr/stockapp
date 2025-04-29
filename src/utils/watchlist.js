@@ -3,19 +3,19 @@ export const getWatchlist = () => {
   };
   
   export const isFavorited = (stockname) => {
-    const list = getWatchlist();
-    return list.includes(stockname);
+    const stored = getWatchlist();
+    return stored.includes(stockname);
   };
   
-export const toggleFavorite = (symbol, name) =>  {
-      const list = JSON.parse(localStorage.getItem("watchlist")) || [];
-      const exists = list.find(item => item.symbol === symbol);
+export const toggleFavorite = (symbol, name, market) =>  {
+      const stored = JSON.parse(localStorage.getItem("watchlist")) || [];
+      const exists = stored.find(item => item.symbol === symbol && item.market === market);
 
       let updated;
       if (exists) {
-        updated = list.filter(item => item.symbol !== symbol);
+        updated = stored.filter(item => !(item.symbol === symbol && item.market === market));
       } else {
-        updated = [...list, {symbol, name}];
+        updated = [...stored, {symbol, name, market}];
       }
 
     localStorage.setItem("watchlist", JSON.stringify(updated));
