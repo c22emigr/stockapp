@@ -1,7 +1,7 @@
 import { Loader } from "lucide-react";
 import react, { useState, useEffect } from "react";
 import { toggleFavorite } from "../utils/watchlist";
-
+import usStocks from "../data/us_stocks.json";
 
 const WatchlistDropdown = ({ setStockname }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +51,10 @@ const WatchlistDropdown = ({ setStockname }) => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation(); // Prevents li click
-                      const updated = toggleFavorite(item.symbol, item.name || item.symbol);
+                      const fullStock = usStocks.find(stock => stock.symbol === item.symbol);
+                      const fullName = fullStock ? fullStock.name : item.symbol || item.symbol;
+
+                      const updated = toggleFavorite(item.symbol, fullName);
                       setWatchlist(updated);
                       window.dispatchEvent(new Event("watchlistUpdated"));
                     }}

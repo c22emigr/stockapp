@@ -18,7 +18,7 @@ const MiniDashboard = ({ stockdata }) => {
         <div className="p-7 w-96 bg-white dark:bg-[#232a31] dark:text-gray-100 rounded shadow-md w-full max-w-md mx-auto mb-7">
         <div>
             <p className="text-xl font-bold">{stockdata[0].stockname}</p>
-            <FavoriteButton symbol={stockdata[0].symbol} />
+            <FavoriteButton symbol={stockdata[0].symbol} name={stockdata[0].stockname} />
         </div>
         <div>
              <p className="font-medium">Price</p>

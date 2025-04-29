@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { isFavorited, toggleFavorite } from "../utils/watchlist";
 
 
-const FavoriteButton = ({ symbol }) => {
+const FavoriteButton = ({ symbol, name }) => {
   const [favorited, setFavorited] = useState(false);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const FavoriteButton = ({ symbol }) => {
 
   const handleClick = () => {
     if (!symbol) return;
-    const newState = toggleFavorite(symbol);
+    const newState = toggleFavorite(symbol, name);
     setFavorited(newState);
 
     const event = new Event("watchlistUpdated");
