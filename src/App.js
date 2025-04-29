@@ -27,11 +27,11 @@ function App() {
   const [recommendation, setRecommendation] = useState(null);
   const [finnhubData, setFinnhubData] = useState(null);
   const [extras, setExtras] = useState(null);
-  const [selectedMarket, setSelectedMarket] = useState(() => {
+  const [selectedMarket, setSelectedMarket] = useState(() => {  // Saves selected market
     const saved = localStorage.getItem("selectedMarket");
     return saved || "";
   });
-  const handleMarketChange = (newMarket) => {
+  const handleMarketChange = (newMarket) => {  // Runs when market changes
     setSelectedMarket(newMarket);
     setSearchInput("");          // clears searchbar
     setSelectedSymbol("");       // clears the selected stock

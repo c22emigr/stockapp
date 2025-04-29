@@ -45,6 +45,27 @@ export default function StockSearch({
     return stock.name.toLowerCase().includes(input.toLowerCase());
     });
   }
+
+  const popularStocksByMarket = {
+    "":[ // NASDAQ
+    { name: "Apple", symbol: "AAPL", market: "US" },
+    { name: "Microsoft", symbol: "MSFT", market: "US" },
+    { name: "NVIDIA", symbol: "NVDA", market: "US" },
+    { name: "Tesla, Inc.", symbol: "TSLA", market: "US" },
+    ],
+    ".ST": [ // Stockholmsbörsen
+    { name: "Volvo B", symbol: "VOLV-B", market: "SE" },
+    { name: "Investor B", symbol: "INVE-B", market: "SE" },
+    { name: "Assa Abloy B", symbol: "ASSA-B", market: "SE" },
+    { name: "Hennes & Mauritz B", symbol: "HM-B", market: "SE" },
+    ],
+    ".TO": [ // Toronto
+    { name: "Shopify", symbol: "SHOP", market: "CA" },
+    { name: "Royal Bank of Canada", symbol: "RY", market: "CA" },
+    { name: "BCE Inc.", symbol: "BCE", market: "CA" },
+    { name: "CAE Inc.", symbol: "CAE", market: "CA" },
+    ],
+  };  
   
 
     {/* ARROW KEYS + ENTER FOR NAVIGATION */}
@@ -84,6 +105,11 @@ export default function StockSearch({
               id="stocksearch"
               onKeyDown={handleKeyDown}
               className="bg-gray-200 dark:bg-gray-700 p-2 rounded border border-s-gray-300"
+              onFocus={() => {
+                if (searchInput.length === 0) {
+                  setFilteredResults(popularStocksByMarket[selectedMarket] || []);
+                }
+              }}
               onChange={(e) => {
                 const userInput = e.target.value;
                 setSearchInput(userInput);
