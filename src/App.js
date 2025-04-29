@@ -11,6 +11,7 @@ import DateRangeSelector from './components/DateRangeSelector';
 import RecommendationCard from './components/RecommendationCard';
 import MiniInfoCard from './components/MiniInfoCard';
 import ComparedStocksPanel from './components/ComparedStocksPanel';
+import normalizeData from "./utils/normalizeData";
 
 
 function App() {
@@ -43,19 +44,21 @@ function App() {
 
   const [comparedSymbols, setComparedSymbols] = useState([]); // Symbols to compare
   const [comparisonData, setComparisonData] = useState([]); // Stock data for each symbol
-  useEffect(() => {  // fetches and stores data for compared stocks
+  useEffect(() => {
     if (comparedSymbols.length === 0) return;
   
     comparedSymbols.forEach(async (symbol) => {
       if (symbol === selectedSymbol) return;
-
+  
       try {
         const res = await fetch(`http://localhost:5000/api/stock?symbol=${symbol}&range=${range}`);
         const data = await res.json();
   
-        setComparisonData(prev => ({
+        const normalized = normalizeData(data.records);
+  
+        setComparisonData((prev) => ({
           ...prev,
-          [symbol]: data.records,
+          [symbol]: normalized,
         }));
       } catch (err) {
         console.error(`Error fetching ${symbol}:`, err);
