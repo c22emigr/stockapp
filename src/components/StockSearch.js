@@ -6,12 +6,15 @@ import Flag from 'react-world-flags';
 export default function StockSearch({
     searchInput,
     setSearchInput,
-    selectedSymbol,
     setSelectedSymbol,
     filteredResults,
     setFilteredResults,
     selectedMarket, 
-    setSelectedMarket
+    setSelectedMarket,
+    comparedSymbols,
+    setComparedSymbols,
+    data,
+    comparisonData
 }) {
 
   function getCountryCodeFromMarket(market) {
@@ -45,6 +48,14 @@ export default function StockSearch({
     return stock.name.toLowerCase().includes(input.toLowerCase());
     });
   }
+
+  const handleAddToCompare = (symbol) => {  // add stock to compare
+    setComparedSymbols(prev => {
+      if (prev.includes(symbol)) return prev; // avoid duplicates
+      if (prev.length >= 2) return prev;
+      return [...prev, symbol];
+    });
+  };
 
   const popularStocksByMarket = {
     "":[ // NASDAQ
@@ -180,6 +191,19 @@ export default function StockSearch({
                         style={{ width: 20 }}
                       />
                       {stock.name} <span className="text-gray-900 dark:text-gray-100">({stock.symbol})</span>
+                      {comparedSymbols.length < 2 && (
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation(); // So it doesn't trigger the li click
+                            handleAddToCompare(stock.symbol);
+                          }}
+                          className="text-green-500 hover:text-green-700 ml-2"
+                        >
+                          +
+                        </button>
+                      )}
+                      
                     </div>
                   </li>
                 ))}

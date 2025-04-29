@@ -4,7 +4,9 @@ import {
     LineChart, AreaChart, Line, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Brush
 } from "recharts";
 
-export default function Stock_chart({ data }) {
+export default function Stock_chart({ data, comparisonData, selectedSymbol }) {
+  const colors = ["#ff7300", "#387908", "#8884d8", "#ffc658", "#82ca9d", "#d0ed57"];
+  const getColor = (index) => colors[index % colors.length];
     if (!data || data.length === 0) return null;
 
     return (
@@ -20,7 +22,12 @@ export default function Stock_chart({ data }) {
           <XAxis dataKey="Date" tick={{ fontSize: 12 }} />
           <YAxis tick={{ fontSize: 12 }} domain={['auto', 'auto']} orientation="right" />
           <Tooltip content={<ChartTooltip />}/>  {/* CUSTOM  TOOLTIP */}
-          <Area type="monotone" dataKey="Close" stroke="#4ade80" fill="url(#colorClose)" strokeWidth={2} dot={false} />
+
+          {Object.entries(comparisonData).map(([symbol, compData], index) => 
+            symbol !== selectedSymbol && (
+            <Area key={symbol} type="monotone" dataKey="Close" stroke={getColor(index)} fill="none" strokeWidth={2} dot={false} />
+            )
+          )}
           <Brush dataKey="Date" height={30} stroke="#10b981" />
         </AreaChart>
       </ResponsiveContainer>

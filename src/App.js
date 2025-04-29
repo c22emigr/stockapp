@@ -10,6 +10,8 @@ import WatchlistDropdown from './components/WatchlistDropdown';
 import DateRangeSelector from './components/DateRangeSelector';
 import RecommendationCard from './components/RecommendationCard';
 import MiniInfoCard from './components/MiniInfoCard';
+import ComparedStocksPanel from './components/ComparedStocksPanel';
+
 
 function App() {
   const [searchInput, setSearchInput] = useState('');
@@ -27,6 +29,7 @@ function App() {
   const [recommendation, setRecommendation] = useState(null);
   const [finnhubData, setFinnhubData] = useState(null);
   const [extras, setExtras] = useState(null);
+
   const [selectedMarket, setSelectedMarket] = useState(() => {  // Saves selected market
     const saved = localStorage.getItem("selectedMarket");
     return saved || "";
@@ -36,6 +39,37 @@ function App() {
     setSearchInput("");          // clears searchbar
     setSelectedSymbol("");       // clears the selected stock
     setFilteredResults([]);       // clears suggestions
+  };
+
+  const [comparedSymbols, setComparedSymbols] = useState([]); // Symbols to compare
+  const [comparisonData, setComparisonData] = useState([]); // Stock data for each symbol
+  useEffect(() => {  // fetches and stores data for compared stocks
+    if (comparedSymbols.length === 0) return;
+  
+    comparedSymbols.forEach(async (symbol) => {
+      if (symbol === selectedSymbol) return;
+
+      try {
+        const res = await fetch(`http://localhost:5000/api/stock?symbol=${symbol}&range=${range}`);
+        const data = await res.json();
+  
+        setComparisonData(prev => ({
+          ...prev,
+          [symbol]: data.records,
+        }));
+      } catch (err) {
+        console.error(`Error fetching ${symbol}:`, err);
+      }
+    });
+  }, [comparedSymbols, range, selectedSymbol]);
+  
+  const removeComparedSymbol = (symbol) => {  // Handle removing comparison symbols
+    setComparedSymbols(prev => prev.filter(s => s !== symbol));
+    setComparisonData(prev => {
+      const updated = { ...prev };
+      delete updated[symbol];
+      return updated;
+    });
   };
 
 
@@ -104,6 +138,8 @@ function App() {
         selectedMarket={selectedMarket}        // Change stockmarkets
         setSelectedMarket={setSelectedMarket}  
         onMarketChange={handleMarketChange}
+        setComparedSymbols={setComparedSymbols}
+        comparedSymbols={comparedSymbols}
       />
 
       <div className="flex items-center gap-4">
@@ -133,13 +169,18 @@ function App() {
           <div className='w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl pl-4 self-start'>
           {stocks.length > 0 && (
             <ResponsiveContainer width="100%" height={400}>
-                <StockChart data={stocks}/>
+                <StockChart data={stocks} comparisonData={comparisonData} selectedSymbol={selectedSymbol }/>
             </ResponsiveContainer>
           )}
           {/* DATE RANGE SELECTOR */}
           <DateRangeSelector
             range={range}
             setRange={setRange}
+          />
+          
+          <ComparedStocksPanel
+            comparedSymbols={comparedSymbols}
+            removeComparedSymbol={removeComparedSymbol}
           />
           </div>
 
