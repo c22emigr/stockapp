@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import usStocks from "../data/us_stocks.json";
 import StockMarketSelector from "./StockMarketSelector";
 import Flag from 'react-world-flags';
@@ -16,6 +16,29 @@ export default function StockSearch({
     data,
     comparisonData
 }) {
+
+  const searchRef = useRef(null);
+
+  useEffect(() => {  // Event listener for outside clicks. To use on menu
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setFilteredResults([]);
+      }
+    };
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setFilteredResults([]);
+      }
+    };
+    
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+  
 
   function getCountryCodeFromMarket(market) {
     switch(market) {
@@ -55,6 +78,24 @@ export default function StockSearch({
       if (prev.length >= 2) return prev;
       return [...prev, symbol];
     });
+  };
+
+  const handleCompareAndNavigate = (symbol, market) => {
+    setComparedSymbols(prev => {
+      if (prev.includes(symbol) || prev.length >= 2) return prev;
+
+      const updated = [...prev, symbol];
+
+      //Only selects if first
+      if (updated.length === 1) {
+        handleAddToCompare(symbol);
+        setSelectedSymbol(symbol);
+        setSelectedMarket(market);
+        setSearchInput("");
+        setFilteredResults([]);
+      }
+      return updated;
+    })
   };
 
   const popularStocksByMarket = {
@@ -104,8 +145,7 @@ export default function StockSearch({
     }
 
     return (
-      <div>
-       
+      <div ref={searchRef}>
       {/* Search input*/}
       <form className="relative flex justify-center p-2" id="searchform">
         <div>
@@ -168,7 +208,7 @@ export default function StockSearch({
 
             {/* Suggested Results */}
             {filteredResults.length > 0 && (
-              <ul className="absolute z-50 overflow-y-auto w-full max-h-96 scroll-smooth pointer-events-auto rounded shadow-md">
+              <ul className="absolute z-50 overflow-y-auto w-full max-h-96 scroll-smooth pointer-events-auto rounded shadow-md backdrop-blur-md">
                 {filteredResults.map((stock, index) => (
                   <li
                     key={index}
@@ -196,7 +236,7 @@ export default function StockSearch({
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation(); // So it doesn't trigger the li click
-                            handleAddToCompare(stock.symbol);
+                            handleCompareAndNavigate(stock.symbol, selectedMarket);
                           }}
                           className="text-green-500 hover:text-green-700 ml-2"
                         >

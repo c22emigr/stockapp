@@ -24,7 +24,7 @@ function App() {
   const [filteredResults, setFilteredResults] = useState([]);
   const [DarkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem("darkMode");
-    if (saved !== null) return saved === "true";
+    return saved ? saved === "true" : false;
   });
   const [range, setRange] = useState("5d");
   const [recommendation, setRecommendation] = useState(null);
@@ -53,7 +53,9 @@ function App() {
 
     comparedSymbols.forEach(async (symbol) => {
       try {
-        const res = await fetch(`http://localhost:5000/api/stock?symbol=${symbol}&range=${range}`);
+        const suffix = selectedMarket;
+        const fullSymbol = symbol.includes(".") ? symbol : `${symbol}${suffix}`;
+        const res = await fetch(`http://localhost:5000/api/stock?symbol=${fullSymbol}&range=${range}`);
         const data = await res.json();
         const normalized = normalizeData(data.records);
 
@@ -84,7 +86,7 @@ function App() {
 
   {/* DARK MODE LOCAL STORAGE */}
   useEffect(() => {
-    localStorage.setItem("darkMode", DarkMode);
+    localStorage.setItem("darkMode", DarkMode.toString());
     document.documentElement.classList.toggle("dark", DarkMode); 
   }, [DarkMode]);
 
@@ -187,7 +189,7 @@ function App() {
           <div className='pl-4 w-[750px] sm:w-[850px] md:w-[1000px] lg:w-[1100px] xl-w-[1200px] flex-1'> 
           {stocks.length > 0 && (
             <ResponsiveContainer width="100%" height={400}>
-                <StockChart data={stocks} comparisonData={comparisonData} selectedSymbol={selectedSymbol}/>
+                <StockChart data={stocks} comparisonData={comparisonData} selectedSymbol={selectedSymbol} darkMode={DarkMode}/>
             </ResponsiveContainer>
           )}
           {/* DATE RANGE SELECTOR */}

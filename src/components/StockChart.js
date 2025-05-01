@@ -1,10 +1,11 @@
 import React from "react";
 import Plot from "react-plotly.js";
 
-export default function StockChart({ data, comparisonData, selectedSymbol }) {
+export default function StockChart({ data, comparisonData, selectedSymbol, darkMode }) {
   if ((!data || data.length === 0) && (!comparisonData || Object.keys(comparisonData).length === 0)) {
     return <div className="text-white text-sm p-2">Loading chart...</div>;
   }
+  const isDarkMode = darkMode;
 
   const traces = [];
 
@@ -37,26 +38,25 @@ export default function StockChart({ data, comparisonData, selectedSymbol }) {
   });
 
   const layout = {
-    autosize: true,
-    paper_bgcolor: '#1d2228',
-    plot_bgcolor: '#1d2228',
-    font: { color: '#fff' },
-    margin: { l: 40, r: 20, t: 10, b: 30 },
+    paper_bgcolor: isDarkMode ? '#1d2228' : '#ffffff',
+    plot_bgcolor: isDarkMode ? '#1d2228' : '#ffffff' ,
+    font: { color: isDarkMode ? '#fff' : '#000' },
+    hoverlabel: {
+      bgcolor: isDarkMode ? '#1d2228' : '#ffffff',
+      font: { color: isDarkMode ? '#000' : '#fff', size: 12 }
+    },
     xaxis: {
-      gridcolor: '#333',
+      gridcolor: isDarkMode ? '#444' : '#ccc',
       tickfont: { size: 12 },
-      type: 'date'
+      type: 'date',
     },
     yaxis: {
-      gridcolor: '#333',
+      gridcolor: isDarkMode ? '#444' : '#ccc',
       tickfont: { size: 12 },
-      rangemode: 'tozero'
+      rangemode: 'tozero',
     },
-    hoverlabel: {
-      bgcolor: '#1d2228',
-      font: { color: '#fff', size: 12 }
-    },
-    showlegend: true
+    margin: { l: 40, r: 20, t: 10, b: 30 },
+    showlegend: true,
   };
 
   if (traces.length === 0) {
@@ -64,7 +64,7 @@ export default function StockChart({ data, comparisonData, selectedSymbol }) {
   }
 
   return (
-    <div className="w-full h-[400px]">
+    <div className="w-full h-[400px] transition-colors duration-300 bg-white dark:bg-[#1d2228]">
       <Plot
         data={traces}
         layout={layout}
