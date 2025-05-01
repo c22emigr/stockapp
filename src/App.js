@@ -46,14 +46,17 @@ function App() {
   const [comparisonData, setComparisonData] = useState({}); // Stock data for each symbol
   useEffect(() => {
     if (comparedSymbols.length === 0) return;
-  
+    
+    let isCurrent = true; // Stale response guard
+
     comparedSymbols.forEach(async (symbol) => {
       try {
         const res = await fetch(`http://localhost:5000/api/stock?symbol=${symbol}&range=${range}`);
         const data = await res.json();
-  
         const normalized = normalizeData(data.records);
-  
+
+        if (!isCurrent) return;
+
         setComparisonData(prev => ({
           ...prev,
           [symbol]: normalized,
@@ -62,6 +65,9 @@ function App() {
         console.error(`Error fetching ${symbol}:`, err);
       }
     });
+    return () => {
+      isCurrent = false; // Cancel if another fetch
+    };
   }, [comparedSymbols, range]);
   
   const removeComparedSymbol = (symbol) => {  // Handle removing comparison symbols
@@ -91,12 +97,14 @@ function App() {
   
   if (!selectedSymbol) return; // No stockname no fetch
   
-  const fetchData = async () => {
+  let isCurrent = true; // Stale response guard
 
+  const fetchData = async () => {
     try {
-      console.log("Fetching:", selectedSymbol, "Range:", range);
       const res = await fetch(`http://localhost:5000/api/stock?symbol=${selectedSymbol}${selectedMarket}&range=${range}`);
       const stockdata = await res.json();
+
+      if (!isCurrent) return;
 
     if (stockdata.error) {
       console.error("API error:", stockdata.error);
@@ -104,6 +112,7 @@ function App() {
     }
     
     const normalized = normalizeData(stockdata.records);
+    console.log("Normalized max range length:", normalized.length);
     setStockinfo(stockdata.company);
     setStocks(normalized);
     setExtras(stockdata.extras)
@@ -116,6 +125,10 @@ function App() {
   };
 
   fetchData();
+
+  return () => {
+    isCurrent = false; // Cancel if another fetch
+  };
 }, [range, selectedSymbol, selectedMarket]);
 
 

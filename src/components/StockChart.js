@@ -7,7 +7,7 @@ export default function StockChart({ data, comparisonData, selectedSymbol }) {
   const traces = [];
 
 
-  if (data && data.length > 0 && !comparisonData[selectedSymbol]) {
+  if (data && data.length > 0) {
     traces.push({
       x: data.map(d => d.Date),
       y: data.map(d => d.Normalized),
@@ -20,7 +20,7 @@ export default function StockChart({ data, comparisonData, selectedSymbol }) {
 
   // Comparison lines
   Object.entries(comparisonData || {}).forEach(([symbol, series], i) => {
-    if (!series || !series.length) return; // skip empty data
+    if (!series?.length || symbol === selectedSymbol) return; // skip if symbol already exists
     traces.push({
       x: series.map(d => d.Date),
       y: series.map(d => d.Normalized),
