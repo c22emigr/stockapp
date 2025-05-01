@@ -43,20 +43,18 @@ function App() {
   };
 
   const [comparedSymbols, setComparedSymbols] = useState([]); // Symbols to compare
-  const [comparisonData, setComparisonData] = useState([]); // Stock data for each symbol
+  const [comparisonData, setComparisonData] = useState({}); // Stock data for each symbol
   useEffect(() => {
     if (comparedSymbols.length === 0) return;
   
     comparedSymbols.forEach(async (symbol) => {
-      if (symbol === selectedSymbol) return;
-  
       try {
         const res = await fetch(`http://localhost:5000/api/stock?symbol=${symbol}&range=${range}`);
         const data = await res.json();
   
         const normalized = normalizeData(data.records);
   
-        setComparisonData((prev) => ({
+        setComparisonData(prev => ({
           ...prev,
           [symbol]: normalized,
         }));
@@ -64,7 +62,7 @@ function App() {
         console.error(`Error fetching ${symbol}:`, err);
       }
     });
-  }, [comparedSymbols, range, selectedSymbol]);
+  }, [comparedSymbols, range]);
   
   const removeComparedSymbol = (symbol) => {  // Handle removing comparison symbols
     setComparedSymbols(prev => prev.filter(s => s !== symbol));
@@ -171,7 +169,7 @@ function App() {
           {stockinfo && <CompanyOverview info={stockinfo} />}
         </div>
 
-          <div className='pl-4 w-[750px] sm:w-[850px] md:w-[1000px] lg:w-[1100px] xl-w-[1200px] flex-1'>
+          <div className='pl-4 w-[750px] sm:w-[850px] md:w-[1000px] lg:w-[1100px] xl-w-[1200px] flex-1'> 
           {stocks.length > 0 && (
             <ResponsiveContainer width="100%" height={400}>
                 <StockChart data={stocks} comparisonData={comparisonData} selectedSymbol={selectedSymbol }/>

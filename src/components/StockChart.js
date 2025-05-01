@@ -2,11 +2,10 @@ import React from "react";
 import Plot from "react-plotly.js";
 
 export default function StockChart({ data, comparisonData, selectedSymbol }) {
-  if (!data || data.length === 0) return null;
+  if ((!data || data.length === 0) && (!comparisonData || Object.keys(comparisonData).length === 0)) return null;
 
   const traces = [];
-  console.log("Selected:", selectedSymbol, "Data length:", data.length);
-  console.log("Dates:", data.map(d => d.Date));
+
 
   if (data && data.length > 0 && !comparisonData[selectedSymbol]) {
     traces.push({
