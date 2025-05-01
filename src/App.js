@@ -49,6 +49,8 @@ function App() {
     
     let isCurrent = true; // Stale response guard
 
+    setComparisonData({}); // clear old data
+
     comparedSymbols.forEach(async (symbol) => {
       try {
         const res = await fetch(`http://localhost:5000/api/stock?symbol=${symbol}&range=${range}`);
@@ -185,7 +187,7 @@ function App() {
           <div className='pl-4 w-[750px] sm:w-[850px] md:w-[1000px] lg:w-[1100px] xl-w-[1200px] flex-1'> 
           {stocks.length > 0 && (
             <ResponsiveContainer width="100%" height={400}>
-                <StockChart data={stocks} comparisonData={comparisonData} selectedSymbol={selectedSymbol }/>
+                <StockChart data={stocks} comparisonData={comparisonData} selectedSymbol={selectedSymbol}/>
             </ResponsiveContainer>
           )}
           {/* DATE RANGE SELECTOR */}

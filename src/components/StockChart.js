@@ -2,7 +2,9 @@ import React from "react";
 import Plot from "react-plotly.js";
 
 export default function StockChart({ data, comparisonData, selectedSymbol }) {
-  if ((!data || data.length === 0) && (!comparisonData || Object.keys(comparisonData).length === 0)) return null;
+  if ((!data || data.length === 0) && (!comparisonData || Object.keys(comparisonData).length === 0)) {
+    return <div className="text-white text-sm p-2">Loading chart...</div>;
+  }
 
   const traces = [];
 
@@ -57,7 +59,9 @@ export default function StockChart({ data, comparisonData, selectedSymbol }) {
     showlegend: true
   };
 
-  if (traces.length === 0) return null;
+  if (traces.length === 0) {
+    return <div className="text-white text-sm p-2">Loading chart...</div>;
+  }
 
   return (
     <div className="w-full h-[400px]">
