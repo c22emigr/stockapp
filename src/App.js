@@ -12,6 +12,7 @@ import RecommendationCard from './components/RecommendationCard';
 import MiniInfoCard from './components/MiniInfoCard';
 import ComparedStocksPanel from './components/ComparedStocksPanel';
 import normalizeData from "./utils/normalizeData";
+import { div } from 'framer-motion/client';
 
 
 function App() {
@@ -176,43 +177,44 @@ function App() {
     </div>
 
 
-    <div className="bg-white dark:bg-[#1d2228] p-2 min-h-screen transition-colors duration-250">
-
-    {/* MINIDASHBOARD + STOCKCHART */} 
-    <div className="flex justify-center">
-      <div className="flex flex-col lg:flex-row items-start justify-start gap-6 mt-7">
-        <div className="self-start">
+  <div className="bg-white dark:bg-[#1d2228] min-h-screen transition-colors duration-250 px-4">
+    <div className="w-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 px-6 pt-7">
+      {/* Col 1, Left-side */}
+        <div className="flex flex-col md:flex-row lg:flex-col gap-4 mr-7 items-center justify-center w-full">
           <MiniDashboard stockdata={stocks} />
           {stockinfo && <CompanyOverview info={stockinfo} />}
         </div>
 
-          <div className='pl-4 w-[750px] sm:w-[850px] md:w-[1000px] lg:w-[1100px] xl-w-[1200px] flex-1'> 
-          {stocks.length > 0 && (
+      {/* Col 2, Stocks */}
+      <div className="flex flex-col gap-4">
+        {stocks.length > 0 && (
+          <div className='w-full max-w-full overflow-hidden'>
             <ResponsiveContainer width="100%" height={400}>
-                <StockChart data={stocks} comparisonData={comparisonData} selectedSymbol={selectedSymbol} darkMode={DarkMode}/>
+              <StockChart
+                data={stocks}
+                comparisonData={comparisonData}
+                selectedSymbol={selectedSymbol}
+                darkMode={DarkMode}
+              />
             </ResponsiveContainer>
-          )}
-          {/* DATE RANGE SELECTOR */}
-          <DateRangeSelector
-            range={range}
-            setRange={setRange}
-          />
-          
-          <ComparedStocksPanel
-            comparedSymbols={comparedSymbols}
-            removeComparedSymbol={removeComparedSymbol}
-          />
           </div>
-
-           {/* SIDE CARDS */}
-        <div className="flex flex-col gap-4 w-fit">
-          <RecommendationCard recommendation={recommendation} />
-           <MiniInfoCard data={extras} />
-        </div>
+        )}
+        <DateRangeSelector range={range} setRange={setRange} />
+        <ComparedStocksPanel
+          comparedSymbols={comparedSymbols}
+          removeComparedSymbol={removeComparedSymbol}
+        />
       </div>
-    </div>
+
+      {/* Col 3, Right side */}
+      <div className="flex flex-col gap-4 mx-auto ml-7">
+        <RecommendationCard recommendation={recommendation} />
+        <MiniInfoCard data={extras} />
+      </div>
 
     </div>
+  </div>
+
     </div>
     </div>
   );
