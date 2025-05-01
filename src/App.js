@@ -92,10 +92,11 @@ function App() {
   useEffect(() => {
   
   if (!selectedSymbol) return; // No stockname no fetch
-
+  
   const fetchData = async () => {
 
     try {
+      console.log("Fetching:", selectedSymbol, "Range:", range);
       const res = await fetch(`http://localhost:5000/api/stock?symbol=${selectedSymbol}${selectedMarket}&range=${range}`);
       const stockdata = await res.json();
 
@@ -104,10 +105,11 @@ function App() {
       return;
     }
     
+    const normalized = normalizeData(stockdata.records);
     setStockinfo(stockdata.company);
-    setStocks(stockdata.records);
+    setStocks(normalized);
     setExtras(stockdata.extras)
-
+    
     // For FINNHUB
     setRecommendation(stockdata.recommendation);
     }catch (err) {

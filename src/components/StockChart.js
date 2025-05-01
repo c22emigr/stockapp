@@ -5,29 +5,31 @@ export default function StockChart({ data, comparisonData, selectedSymbol }) {
   if (!data || data.length === 0) return null;
 
   const traces = [];
+  console.log("Selected:", selectedSymbol, "Data length:", data.length);
+  console.log("Dates:", data.map(d => d.Date));
 
-  traces.push({
-    x: data.map(d => d.Date),
-    y: data.map(d => d.Normalized),
-    name: selectedSymbol,
-    type: 'scatter',
-    mode: 'lines',
-    line: {
-      color: '#4ade80',
-      width: 2
-    }
-  });
+  if (data && data.length > 0 && !comparisonData[selectedSymbol]) {
+    traces.push({
+      x: data.map(d => d.Date),
+      y: data.map(d => d.Normalized),
+      name: selectedSymbol,
+      type: "scatter",
+      mode: "lines",
+      line: { color: "#4ade80", width: 2 }
+    });
+  }
 
   // Comparison lines
   Object.entries(comparisonData || {}).forEach(([symbol, series], i) => {
+    if (!series || !series.length) return; // skip empty data
     traces.push({
       x: series.map(d => d.Date),
       y: series.map(d => d.Normalized),
       name: symbol,
-      type: 'scatter',
-      mode: 'lines',
+      type: "scatter",
+      mode: "lines",
       line: {
-        color: ['#ff7300', '#387908', '#8884d8', '#ffc658', '#82ca9d', '#deed57'][i % 6],
+        color: ["#ff7300", "#387908", "#8884d8", "#ffc658", "#82ca9d", "#deed57"][i % 6],
         width: 2
       }
     });
@@ -56,8 +58,10 @@ export default function StockChart({ data, comparisonData, selectedSymbol }) {
     showlegend: true
   };
 
+  if (traces.length === 0) return null;
+
   return (
-    <div className="w-full">
+    <div className="w-full h-[400px]">
       <Plot
         data={traces}
         layout={layout}
