@@ -169,7 +169,7 @@ function App() {
           {stockinfo && <CompanyOverview info={stockinfo} />}
         </div>
 
-          <div className='w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl pl-4 self-start'>
+          <div className='pl-4 w-[750px] sm:w-[850px] md:w-[1000px] lg:w-[1100px] xl-w-[1200px] flex-1'>
           {stocks.length > 0 && (
             <ResponsiveContainer width="100%" height={400}>
                 <StockChart data={stocks} comparisonData={comparisonData} selectedSymbol={selectedSymbol }/>

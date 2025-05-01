@@ -1,48 +1,77 @@
 import React from "react";
-import ChartTooltip from "./ChartTooltip";
-import {
-    LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Brush
-} from "recharts";
+import Plot from "react-plotly.js";
 
-const colors = ["#ff7300", "#387908", "#8884d8", "#ffc658", "#82ca9d", "#d0ed57"];
-const getColor = (index) => colors[index % colors.length];
+export default function StockChart({ data, comparisonData, selectedSymbol }) {
+  if (!data || data.length === 0) return null;
 
-export default function Stock_chart({ data, comparisonData, selectedSymbol }) {
-    if (!data || data.length === 0) return null;
+  const traces = [];
 
-    return (
-      <ResponsiveContainer width="100%">
-      <LineChart
-        margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="Date" tick={{ fontSize: 12 }} />
-        <YAxis tick={{ fontSize: 12 }} domain={["auto", "auto"]} orientation="right" />
-        <Tooltip content={<ChartTooltip />} />
+  traces.push({
+    x: data.map(d => d.Date),
+    y: data.map(d => d.Normalized),
+    name: selectedSymbol,
+    type: 'scatter',
+    mode: 'lines',
+    line: {
+      color: '#4ade80',
+      width: 2
+    }
+  });
 
-        <Line
-          type="monotone"
-          data={data}
-          dataKey="Normalized"
-          stroke="#4ade80"
-          strokeWidth={2}
-          dot={false}
-        />
+  // Comparison lines
+  Object.entries(comparisonData || {}).forEach(([symbol, series], i) => {
+    traces.push({
+      x: series.map(d => d.Date),
+      y: series.map(d => d.Normalized),
+      name: symbol,
+      type: 'scatter',
+      mode: 'lines',
+      line: {
+        color: ['#ff7300', '#387908', '#8884d8', '#ffc658', '#82ca9d', '#deed57'][i % 6],
+        width: 2
+      }
+    });
+  });
 
-        {Object.entries(comparisonData || {}).map(([symbol, compData], index) => (
-          <Line
-            key={symbol}
-            type="monotone"
-            data={compData}
-            dataKey="Normalized"
-            stroke={getColor(index)}
-            strokeWidth={2}
-            dot={false}
-          />
-        ))}
+  const layout = {
+    autosize: true,
+    paper_bgcolor: '#1d2228',
+    plot_bgcolor: '#1d2228',
+    font: { color: '#fff' },
+    margin: { l: 40, r: 20, t: 10, b: 30 },
+    xaxis: {
+      gridcolor: '#333',
+      tickfont: { size: 12 },
+      type: 'date'
+    },
+    yaxis: {
+      gridcolor: '#333',
+      tickfont: { size: 12 },
+      rangemode: 'tozero'
+    },
+    hoverlabel: {
+      bgcolor: '#1d2228',
+      font: { color: '#fff', size: 12 }
+    },
+    showlegend: true
+  };
 
-        <Brush dataKey="Date" height={30} stroke="#10b981" />
-      </LineChart>
-      </ResponsiveContainer>
-    );
+  return (
+    <div className="w-full">
+      <Plot
+        data={traces}
+        layout={layout}
+        useResizeHandler
+        style={{ width: "100%", height: "100%" }}
+        config={{     
+          responsive: true,
+          displayModeBar: true,
+          modeBarButtonsToRemove: [
+            "toImage", "sendDataToCloud", "lasso2d", "select2d"
+          ],
+          scrollZoom: true
+        }}
+      />
+    </div>
+  );
 }

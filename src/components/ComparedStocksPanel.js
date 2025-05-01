@@ -6,7 +6,7 @@ export default function ComparedStocksPanel({ comparedSymbols, removeComparedSym
 
 
   return (
-    <div className="mt-4 p-2 bg-gray-100 dark:bg-gray-800 rounded shadow text-sm">
+    <div className="mt-4 p-2 bg-gray-100 dark:bg-[#232a31] rounded shadow text-sm">
       <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-2">
         Compared Stocks:
       </h3>
