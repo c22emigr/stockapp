@@ -45,38 +45,53 @@ function App() {
 
   const [comparedSymbols, setComparedSymbols] = useState([]); // Symbols to compare
   const [comparisonData, setComparisonData] = useState({}); // Stock data for each symbol
-  useEffect(() => {
-    setComparisonData({}); // clear old data before fetch
-  }, [comparedSymbols]);
 
-  useEffect(() => {
-    if (comparedSymbols.length === 0) return;
+    {/* Fetch Stocks (First and Compared) */}
+    useEffect(() => {
+      if (!selectedSymbol) return;
     
-    let isCurrent = true; // Stale response guard
+      let isCurrent = true;
+    
+      const fetchData = async () => {  // Fetches first stock
+        try {
+          const res = await fetch(`http://localhost:5000/api/stock?symbol=${selectedSymbol}${selectedMarket}&range=${range}`);
+          const stockdata = await res.json();
+          const normalized = normalizeData(stockdata.records);
+          if (!isCurrent || !normalized?.length) {
+            setStocks([]);
+            return;
+          }
+    
+          const newComparisonData = {};  // Fetches compared stock
+          for (const symbol of comparedSymbols) {
+            const full = symbol.includes(".") ? symbol : `${symbol}${selectedMarket}`;
+            const res = await fetch(`http://localhost:5000/api/stock?symbol=${full}&range=${range}`);
+            const json = await res.json();
+            const norm = normalizeData(json.records);
+            if (!norm?.length) continue;
+            newComparisonData[symbol] = norm;
+          }
 
-    comparedSymbols.forEach(async (symbol) => {
-      try {
-        const suffix = selectedMarket;
-        const fullSymbol = symbol.includes(".") ? symbol : `${symbol}${suffix}`;
-        const res = await fetch(`http://localhost:5000/api/stock?symbol=${fullSymbol}&range=${range}`);
-        const data = await res.json();
-        const normalized = normalizeData(data.records);
+          setStocks(normalized);
+          setStockinfo(stockdata.company);
+          setExtras(stockdata.extras);
+          setRecommendation(stockdata.recommendation);
+          setComparisonData(newComparisonData);
+    
+        } catch (err) {
+          console.error("Fetch error:", err);
+          setStocks([]);
+          setComparisonData({});
+        }
+      };
+    
+      fetchData();
+    
+      return () => {
+        isCurrent = false;
+      };
+    }, [range, selectedSymbol, selectedMarket, comparedSymbols]);
 
-        if (!isCurrent) return;
-
-        setComparisonData(prev => ({
-          ...prev,
-          [symbol]: normalized,
-        }));
-      } catch (err) {
-        console.error(`Error fetching ${symbol}:`, err);
-      }
-    });
-    return () => {
-      isCurrent = false; // Cancel if another fetch
-    };
-  }, [comparedSymbols, range]);
-  
   const removeComparedSymbol = (symbol) => {  // Handle removing comparison symbols
     setComparedSymbols(prev => prev.filter(s => s !== symbol));
     setComparisonData(prev => {
@@ -97,46 +112,6 @@ function App() {
   useEffect(() => {
     localStorage.setItem("selectedMarket", selectedMarket);
   }, [selectedMarket]);
-
-
-  {/* Fetch Stocks */}
-  useEffect(() => {
-  
-  if (!selectedSymbol) return; // No stockname no fetch
-  
-  let isCurrent = true; // Stale response guard
-
-  const fetchData = async () => {
-    try {
-      const res = await fetch(`http://localhost:5000/api/stock?symbol=${selectedSymbol}${selectedMarket}&range=${range}`);
-      const stockdata = await res.json();
-
-      if (!isCurrent) return;
-
-    if (stockdata.error) {
-      console.error("API error:", stockdata.error);
-      return;
-    }
-    
-    const normalized = normalizeData(stockdata.records);
-    console.log("Normalized max range length:", normalized.length);
-    setStockinfo(stockdata.company);
-    setStocks(normalized);
-    setExtras(stockdata.extras)
-    
-    // For FINNHUB
-    setRecommendation(stockdata.recommendation);
-    }catch (err) {
-    console.error("Fetch error:", err);
-    }
-  };
-
-  fetchData();
-
-  return () => {
-    isCurrent = false; // Cancel if another fetch
-  };
-}, [range, selectedSymbol, selectedMarket]);
 
 
   return (

@@ -7,18 +7,6 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
   }
   const isDarkMode = darkMode;
 
-  const isLoading =
-  !data || data.length === 0 || // ensure main stock data is loaded
-  (comparisonData &&
-    Object.entries(comparisonData).some(
-      ([symbol, series]) =>
-        symbol !== selectedSymbol && (!series || series.length === 0)
-    ));
-
-  if (isLoading) {
-    return <div className="text-white text-sm p-2">Loading chart...</div>;
-  }
-
   const traces = [];
 
   if (data && data.length > 0) {
