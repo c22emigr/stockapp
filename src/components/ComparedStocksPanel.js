@@ -1,32 +1,33 @@
 import React from "react";
-  
+import { X } from "lucide-react";
 
 export default function ComparedStocksPanel({ comparedSymbols, removeComparedSymbol, setSelectedSymbol }) {
   if (comparedSymbols.length === 0) return null;
 
 
   return (
-    <div className="mt-4 p-2 bg-gray-100 dark:bg-[#232a31] rounded shadow text-sm">
-      <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-2">
-        Compared Stocks:
-      </h3>
-      <ul className="flex flex-wrap gap-2">
-        {comparedSymbols.map((symbol) => (
-          <li
-            key={symbol}
-            onClick={() => setSelectedSymbol(symbol)}
-            className="bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 hover:scale-[1.02] active:scale-[0.98] border-transparent hover:border-emerald-400 px-4 py-4 rounded flex items-center gap-2 cursor-pointer"
+  <div className="bg-white dark:bg-[#1d2228] rounded-lg shadow p-4 w-full max-w-[600px] mx-auto mt-4">
+    <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-100 mb-2">
+      <span>Compared Stocks:</span>
+      {comparedSymbols.map((symbol) => (
+        <span
+          key={symbol}
+          onClick={() => setSelectedSymbol(symbol)}
+          className="px-3 py-1 rounded-full font-medium bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white border border-transparent hover:border-emerald-400 transition-all flex items-center gap-2 cursor-pointer"
+        >
+          {symbol}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              removeComparedSymbol(symbol);
+            }}
+            className="text-red-400 hover:text-emerald-400 transition-colors"
           >
-            {symbol}
-            <button
-              onClick={() => removeComparedSymbol(symbol)}
-              className="hover:scale-[1.05] active:scale-[0.95]"
-            >
-              ✖
-            </button>
-          </li>
-        ))}
-      </ul>
+            <X size={20} />
+          </button>
+        </span>
+      ))}
     </div>
+  </div>
   );
 }

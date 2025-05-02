@@ -21,8 +21,10 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
   }
 
   // Comparison lines
-  Object.entries(comparisonData || {}).forEach(([symbol, series], i) => {
+  if (comparisonData && Object.keys(comparisonData).length > 0) {
+  Object.entries(comparisonData).forEach(([symbol, series], i) => {
     if (!series?.length || symbol === selectedSymbol) return; // skip if symbol already exists
+
     traces.push({
       x: series.map(d => d.Date),
       y: series.map(d => d.Normalized),
@@ -35,13 +37,15 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
       }
     });
   });
+}
+
 
   const layout = {
-    paper_bgcolor: isDarkMode ? '#1d2228' : '#ffffff',
-    plot_bgcolor: isDarkMode ? '#1d2228' : '#ffffff' ,
+    paper_bgcolor: isDarkMode ? '#232a31' : '#ffffff',
+    plot_bgcolor: isDarkMode ? '#232a31' : '#ffffff' ,
     font: { color: isDarkMode ? '#fff' : '#000' },
     hoverlabel: {
-      bgcolor: isDarkMode ? '#1d2228' : '#ffffff',
+      bgcolor: isDarkMode ? '#232a31' : '#ffffff',
       font: { color: isDarkMode ? '#000' : '#fff', size: 12 }
     },
     xaxis: {
@@ -71,7 +75,6 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
         style={{ width: "100%", height: "100%" }}
         config={{     
           responsive: true,
-          displayModeBar: true,
           modeBarButtonsToRemove: [
             "toImage", "sendDataToCloud", "lasso2d", "select2d"
           ],

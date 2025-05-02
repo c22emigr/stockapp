@@ -116,7 +116,7 @@ function App() {
 
   return (
     <div className="App">
-    <div className={`${DarkMode ? 'dark' : ''} min-h-screen transition-colors duration-250`}>
+    <div className={`${DarkMode ? 'dark' : ''} min-h-screen transition-colors duration-250 w-full overflow-x-hidden`}>
 
     {/* HEADER */}
     <div className="flex justify-between items-center px-6 py-4 bg-white dark:bg-[#1d2228] shadow-md border-b border-gray-300 dark:border-gray-700">
@@ -125,7 +125,6 @@ function App() {
       </div>
 
       {/* Search Stocks Component */}
-      
       <StockSearch
         searchInput={searchInput}
         setSearchInput={setSearchInput}
@@ -140,59 +139,69 @@ function App() {
         comparedSymbols={comparedSymbols}
       />
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-2 w-full md:w-auto justify-end md:justify-end">
         <button
           onClick={() => setDarkMode(!DarkMode)}                   
-          className="bg-gray-200 dark:bg-gray-700 p-2 rounded"
+          className="bg-gray-200 dark:bg-gray-700 p-2 rounded-full shadow-lg"
         >
           {DarkMode ? '☀️ Light' : '🌙 Dark'}
         </button>
 
         {/* WATCHLIST DROPDOWN */}
-        <WatchlistDropdown setSelectedSymbol={setSelectedSymbol} />
+          <WatchlistDropdown setSelectedSymbol={setSelectedSymbol} />
       </div>
     </div>
 
 
   <div className="bg-white dark:bg-[#1d2228] min-h-screen transition-colors duration-250 px-4">
-    <div className="w-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 px-6 pt-7">
-      {/* Col 1, Left-side */}
-        <div className="flex flex-col md:flex-row lg:flex-col gap-4 mr-7 items-center justify-center w-full">
+
+  <div className="w-full px-4 lg:px-8 max-w-[1600px] mx-auto pt-7">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Chart section. Spans 2 columns */}
+      <div className="lg:col-span-2 flex flex-col items-center">
+        <div className="w-full gap-4 max-w-[1100px] mx-auto bg-white dark:bg-[#232a31] rounded-lg shadow p-4">
+          <div className="p-4">
+          <StockChart
+            data={stocks}
+            comparisonData={comparisonData}
+            comparedSymbols={comparedSymbols}
+            selectedSymbol={selectedSymbol}
+            darkMode={DarkMode}
+          />
+          </div>
+        <div className="">
+          <DateRangeSelector range={range} setRange={setRange} />
+          <ComparedStocksPanel
+            comparedSymbols={comparedSymbols}
+            removeComparedSymbol={removeComparedSymbol}
+            setSelectedSymbol={setSelectedSymbol}
+          />
+        </div>
+        </div>
+      </div>
+
+      {/* Right-side info panel. 1 Col */}
+      <div className="flex flex-col gap-4 w-full items-center md:items-start place-self-center">
+        <div className="w-full max-w-[500px] lg:max-w-[560px] space-y-3">
+        <div className="bg-white dark:bg-[#232a31] rounded-lg shadow p-4 text-center">
           <MiniDashboard stockdata={stocks} />
+        </div>
+        <div className="bg-white dark:bg-[#232a31] rounded-lg shadow p-4">
           {stockinfo && <CompanyOverview info={stockinfo} />}
         </div>
-
-      {/* Col 2, Stocks */}
-      <div className="flex flex-col gap-4">
-        {stocks.length > 0 && (
-          <div className='w-full max-w-full overflow-hidden'>
-            <ResponsiveContainer width="100%" height={400}>
-              <StockChart
-                data={stocks}
-                comparisonData={comparisonData}
-                selectedSymbol={selectedSymbol}
-                darkMode={DarkMode}
-              />
-            </ResponsiveContainer>
-          </div>
-        )}
-        <DateRangeSelector range={range} setRange={setRange} />
-        <ComparedStocksPanel
-          comparedSymbols={comparedSymbols}
-          removeComparedSymbol={removeComparedSymbol}
-          setSelectedSymbol={setSelectedSymbol}
-        />
+        <div className="bg-white dark:bg-[#232a31] rounded-lg shadow p-4">
+          <RecommendationCard recommendation={recommendation} />
+        </div>
+        <div className="bg-white dark:bg-[#232a31] rounded-lg shadow p-4">
+          <MiniInfoCard data={extras} />
+        </div>
+        </div>
       </div>
-
-      {/* Col 3, Right side */}
-      <div className="flex flex-col gap-4 mx-auto ml-7">
-        <RecommendationCard recommendation={recommendation} />
-        <MiniInfoCard data={extras} />
-      </div>
-
     </div>
   </div>
 
+
+  </div>
     </div>
     </div>
   );
