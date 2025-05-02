@@ -46,11 +46,13 @@ function App() {
   const [comparedSymbols, setComparedSymbols] = useState([]); // Symbols to compare
   const [comparisonData, setComparisonData] = useState({}); // Stock data for each symbol
   useEffect(() => {
+    setComparisonData({}); // clear old data before fetch
+  }, [comparedSymbols]);
+
+  useEffect(() => {
     if (comparedSymbols.length === 0) return;
     
     let isCurrent = true; // Stale response guard
-
-    setComparisonData({}); // clear old data
 
     comparedSymbols.forEach(async (symbol) => {
       try {
@@ -203,6 +205,7 @@ function App() {
         <ComparedStocksPanel
           comparedSymbols={comparedSymbols}
           removeComparedSymbol={removeComparedSymbol}
+          setSelectedSymbol={setSelectedSymbol}
         />
       </div>
 

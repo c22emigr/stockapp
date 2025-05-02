@@ -1,7 +1,7 @@
 import React from "react";
   
 
-export default function ComparedStocksPanel({ comparedSymbols, removeComparedSymbol }) {
+export default function ComparedStocksPanel({ comparedSymbols, removeComparedSymbol, setSelectedSymbol }) {
   if (comparedSymbols.length === 0) return null;
 
 
@@ -14,12 +14,13 @@ export default function ComparedStocksPanel({ comparedSymbols, removeComparedSym
         {comparedSymbols.map((symbol) => (
           <li
             key={symbol}
-            className="bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-2 py-1 rounded flex items-center gap-2"
+            onClick={() => setSelectedSymbol(symbol)}
+            className="bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 hover:scale-[1.02] active:scale-[0.98] border-transparent hover:border-emerald-400 px-4 py-4 rounded flex items-center gap-2 cursor-pointer"
           >
             {symbol}
             <button
               onClick={() => removeComparedSymbol(symbol)}
-              className="text-red-500 hover:text-red-700"
+              className="hover:scale-[1.05] active:scale-[0.95]"
             >
               ✖
             </button>
