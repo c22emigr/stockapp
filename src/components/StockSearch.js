@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import usStocks from "../data/us_stocks.json";
-import StockMarketSelector from "./StockMarketSelector";
 import Flag from 'react-world-flags';
 
 export default function StockSearch({
@@ -155,7 +154,7 @@ export default function StockSearch({
               value={searchInput}
               id="stocksearch"
               onKeyDown={handleKeyDown}
-              className="bg-gray-200 dark:bg-gray-700 p-2 rounded border border-s-gray-300"
+              className="bg-white dark:bg-[#1d2228] p-2 rounded border"
               onFocus={() => {
                 if (searchInput.length === 0) {
                   setFilteredResults(popularStocksByMarket[selectedMarket] || []);
@@ -191,19 +190,6 @@ export default function StockSearch({
               }}
               placeholder="Enter company name"
             />
-            <div className="inline mt-2 ml-7">
-              <span className="text-gray-500 dark:text-gray-400 text-sm">
-                <StockMarketSelector 
-                  selectedMarket={selectedMarket} 
-                  onMarketChange={(newMarket) => {
-                    setSelectedMarket(newMarket); 
-                    setSearchInput("");             // clears the input
-                    setSelectedSymbol("");          // clears symbols
-                    setFilteredResults([]);         // clears search results
-                  }}
-                  />
-              </span>
-            </div>
 
 
             {/* Suggested Results */}

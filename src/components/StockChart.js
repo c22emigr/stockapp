@@ -3,7 +3,7 @@ import Plot from "react-plotly.js";
 
 export default function StockChart({ data, comparisonData, selectedSymbol, darkMode }) {
   if ((!data || data.length === 0) && (!comparisonData || Object.keys(comparisonData).length === 0)) {
-    return <div className="text-white text-sm p-2">Loading chart...</div>;
+    return <div className="text-white text-sm p-2">Select a stock to view chart.</div>;
   }
   const isDarkMode = darkMode;
 

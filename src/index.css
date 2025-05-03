@@ -7,7 +7,14 @@
 
 
 @layer base {
+    .scrollbar-thin::-webkit-scrollbar {
+        height: 6px;
+    }
 
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        background-color: #4b5563; /* Tailwind's gray-700 */
+        border-radius: 9999px;
+    }
 }
 
 
