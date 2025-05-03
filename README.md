@@ -6,12 +6,15 @@ Flask server for hosting backend locally.
 Front-end is React with tailwindcss
 
 Features to be added:
-  Stock Comparison,
-  Currency Conversions,
-  Fullscreen Graphs,
-  Fetch Market News
+  Stock Comparison [x],
+  Currency Conversions [],
+  Fullscreen Graphs [],
+  Fetch Market News []
   
 
 Demo Soon.
 
-![image](https://github.com/user-attachments/assets/bdd0ec8b-05aa-4e4d-a947-106ebfaae5ef)
+![image](https://github.com/user-attachments/assets/200a9842-f840-4ef2-817d-4914ac3ee656)
+![image](https://github.com/user-attachments/assets/0b618b02-3d3d-47f1-92fe-f73e3fb3be5c)
+
+
