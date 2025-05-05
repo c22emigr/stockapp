@@ -45,7 +45,8 @@ function App() {
     setSelectedSymbol("");       // clears the selected stock
     setFilteredResults([]);       // clears suggestions
   };
-
+  
+  const [isFullscreen, setIsFullscreen] = useState(false); // State to track fullscreen on/off
   const [comparedSymbols, setComparedSymbols] = useState([]); // Symbols to compare
   const [comparisonData, setComparisonData] = useState({}); // Stock data for each symbol
 

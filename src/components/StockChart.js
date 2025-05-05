@@ -1,7 +1,38 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Plot from "react-plotly.js";
+import { Maximize, Minimize } from "lucide-react";
 
 export default function StockChart({ data, comparisonData, selectedSymbol, darkMode }) {
+  const [isFullscreen, setIsFullscreen] = useState(false); // State to track fullscreen on/off
+  const chartRef = useRef(); // Full screen toggle for chart
+
+  const toggleFullscreen = () => {
+    const el = chartRef.current;
+    if (!document.fullscreenElement) {
+      if (el.requestFullscreen) el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      else if (el.msRequestFullscreen) el.msRequestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      else if (document.msExitFullscreen) document.msExitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  useEffect(() => { // Listen for exit
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+  
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
+
+
   if ((!data || data.length === 0) && (!comparisonData || Object.keys(comparisonData).length === 0)) {
     return <div className="text-white text-sm p-2">Select a stock to view chart.</div>;
   }
@@ -67,7 +98,16 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
   }
 
   return (
-    <div className="w-full h-[400px] transition-colors duration-300 bg-white dark:bg-[#1d2228]">
+    <div ref={chartRef} className="w-full h-[400px] transition-colors duration-300 bg-white dark:bg-[#232a31]">
+      <div className="flex justify-end mb-2">
+        <button
+          onClick={toggleFullscreen}
+          className="text-sm px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded hover:bg-emerald-400 dark:hover:bg-emerald-400 hover:text-white transition flex items-center gap-1"
+        >
+          {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
+        </button>
+      </div>
+
       <Plot
         data={traces}
         layout={layout}
@@ -75,10 +115,11 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
         style={{ width: "100%", height: "100%" }}
         config={{     
           responsive: true,
+          scrollZoom: true,
+          displaylogo: false,
           modeBarButtonsToRemove: [
             "toImage", "sendDataToCloud", "lasso2d", "select2d"
-          ],
-          scrollZoom: true
+          ]
         }}
       />
     </div>

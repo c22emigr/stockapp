@@ -66,7 +66,7 @@ const WatchlistDropdown = ({ setSelectedSymbol }) => {
         <ul className="max-h-60 overflow-y-auto divide-y divide-gray-200 dark:divide-gray-700">
           {watchlist.length === 0 ? (
             <li className="p-3 text-center text-gray-500 dark:text-gray-400 italic">
-              No favorites yet ✨
+              No favorites yet
             </li>
           ) : (
             watchlist.map((item, idx) => (
