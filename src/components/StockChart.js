@@ -96,13 +96,13 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
   }
 
   return (
-    <div ref={chartRef} className="w-full h-[400px] transition-colors duration-300 bg-white dark:bg-[#1d2228]">
+    <div ref={chartRef} className="w-full h-[400px] transition-colors duration-300 bg-white dark:bg-[#232a31]">
       <div className="flex justify-end mb-2">
         <button
           onClick={toggleFullscreen}
-          className="text-sm px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded hover:bg-emerald-400 hover:text-white transition"
+          className="text-sm px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded hover:bg-emerald-400 dark:hover:bg-emerald-400 hover:text-white transition flex items-center gap-1"
         >
-          Fullscreen
+          {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
         </button>
       </div>
 
