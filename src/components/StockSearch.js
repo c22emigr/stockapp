@@ -153,7 +153,7 @@ export default function StockSearch({
           type="text"
           value={searchInput}
           onKeyDown={handleKeyDown}
-          className="w-full bg-white dark:bg-[#1d2228] p-2 pl-10 rounded border text-sm text-black dark:text-white"
+          className="w-full bg-white dark:bg-[#1d2228] p-2 pl-10 rounded-full border text-sm text-black dark:text-white"
           onFocus={() => {
             if (searchInput.length === 0) {
               setFilteredResults(popularStocksByMarket[selectedMarket] || []);
