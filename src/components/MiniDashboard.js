@@ -12,7 +12,6 @@ const MiniDashboard = ({ stockdata }) => {
     const change = latest.Close - prev.Close;
     const changePct = ((change / prev.Close) * 100).toFixed(2);
     const isPositive = change >= 0;
-    console.log("MiniDashboard props", stockdata[0]);
 
     return (
     <div className="p-7 mx-auto dark:text-gray-100 text-center space-y-4">

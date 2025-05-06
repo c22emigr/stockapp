@@ -14,7 +14,7 @@ import ComparedStocksPanel from './components/ComparedStocksPanel';
 import normalizeData from "./utils/normalizeData";
 import { div } from 'framer-motion/client';
 import StockMarketSelector from "./components/StockMarketSelector";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Loader } from "lucide-react";
 
 
 function App() {
@@ -34,8 +34,10 @@ function App() {
   const [finnhubData, setFinnhubData] = useState(null);
   const [extras, setExtras] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state
 
   const [selectedMarket, setSelectedMarket] = useState(() => {  // Saves selected market
+
     const saved = localStorage.getItem("selectedMarket");
     return saved || "";
   });
@@ -57,6 +59,8 @@ function App() {
       let isCurrent = true;
     
       const fetchData = async () => {  // Fetches first stock
+        console.time();
+        setLoading(true);
         try {
           const res = await fetch(`http://localhost:5000/api/stock?symbol=${selectedSymbol}${selectedMarket}&range=${range}`);
           const stockdata = await res.json();
@@ -86,6 +90,9 @@ function App() {
           console.error("Fetch error:", err);
           setStocks([]);
           setComparisonData({});
+        } finally {
+          setLoading(false);
+          console.timeEnd();
         }
       };
     
@@ -201,6 +208,11 @@ function App() {
         </div>
         <div className="w-full gap-4 max-w-[1100px] mx-auto bg-white dark:bg-[#232a31] rounded-lg shadow p-4">
           <div className="p-4">
+            {loading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-white/70 dark:bg-[#232a31]/70 z-10 rounded-lg">
+                <Loader className="animate-spin text-emerald-500 w-8 h-8" />
+              </div>
+            )}
             {selectedSymbol && stocks.length > 0 ? (
             <StockChart
               data={stocks}
