@@ -5,6 +5,7 @@ import { Maximize, Minimize } from "lucide-react";
 export default function StockChart({ data, comparisonData, selectedSymbol, darkMode }) {
   const chartRef = useRef();
   const [isFullscreen, setIsFullscreen] = useState(false); // Fullscreen states
+  const [hoverData, setHoverData] = useState(null); // State for hovering graph
 
   const toggleFullscreen = () => {
     const el = chartRef.current;
@@ -47,11 +48,8 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
       type: "scatter",
       mode: "lines",
       line: { color: "#4ade80", width: 2 },
-      hovertemplate: `
-      <b>%{x}</b><br>
-      <span style="color:#10b981;">Raw Close:</span> %{customdata:.2f}<br>
-      <span style="color:#f59e0b;">% Change:</span> %{y:.2f}%
-      <extra></extra>`,
+      hoverinfo: "none", // Disable default tooltip
+      hoveron: "points",
     });
   }
 
@@ -71,11 +69,8 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
         color: ["#ff7300", "#387908", "#8884d8", "#ffc658", "#82ca9d", "#deed57"][i % 6],
         width: 2
       },
-      hovertemplate:  `
-      <b>%{x}</b><br>
-      <span style="color:#10b981;">Raw Close:</span> %{customdata:.2f}<br>
-      <span style="color:#f59e0b;">% Change:</span> %{y:.2f}%
-      <extra></extra>`,
+      hoverinfo: "none",
+      hoveron: "points",
     });
   });
 }
@@ -114,7 +109,7 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
   }
 
   return (
-    <div ref={chartRef} className="w-full h-[400px] transition-colors duration-300 bg-white dark:bg-[#232a31]">
+    <div ref={chartRef} className="relative w-full h-[400px] transition-colors duration-300 bg-white dark:bg-[#232a31]">
       <div className="flex justify-end mb-2">
         <button
           onClick={toggleFullscreen}
@@ -138,7 +133,45 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
           ],
           modeBarButtonsToAdd: ["toggleFullscreen"]
         }}
+        onHover={(event) => {
+          const { points } = event;
+          const point = points[0];
+          const chartRect = chartRef.current.getBoundingClientRect();
+          setHoverData({
+            x: point.x,
+            y: point.y,
+            close: point.customdata,
+            symbol: point.data.name,
+            top: event.event.clientY - chartRect.top,
+            left: event.event.clientX - chartRect.left
+          });
+        }}
+        onUnhover={() => setHoverData(null)}
       />
+
+      {hoverData && (
+        <div
+          className="absolute z-50 p-3 bg-gray-800 text-white rounded shadow text-sm pointer-events-none leading-tight"
+          style={{
+            top: `${hoverData.top + 12}px`,
+            left: `${hoverData.left + 12}px`
+          }}
+        >
+          <p className="text-xs text-white font-semibold">
+            {hoverData.symbol} — {hoverData.x}
+          </p>
+          <p className="text-emerald-400 text-base font-bold">
+            ${hoverData.close.toFixed(2)}
+          </p>
+          <p
+            className={`text-sm font-medium ${
+              hoverData.y >= 0 ? "text-emerald-400" : "text-red-400"
+            }`}
+          >
+            {(hoverData.y >= 0 ? "+" : "") + hoverData.y.toFixed(2)}%
+          </p>     
+        </div>
+      )}
     </div>
   );
 }
