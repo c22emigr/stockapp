@@ -242,7 +242,7 @@ function App() {
           </div>
         </div>
 
-        <div className="lg:col-span-2 flex flex-col items-center">
+        <div className="w-full lg:col-span-2 bg-white dark:bg-[#232a31] mt-3 rounded-lg shadow">
           <NewsPanel selectedStock={selectedSymbol} fullSymbol={`${selectedSymbol}${selectedMarket}`} />
         </div>
         

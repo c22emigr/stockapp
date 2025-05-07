@@ -45,7 +45,7 @@ export default function NewsPanel({ selectedStock, fullSymbol }) {
   }, [selectedStock, category]);
 
   return (
-    <div className="mt-6 bg-white dark:bg-[#1d2228] p-4 rounded-lg shadow">
+    <div className="p-4 bg-white dark:bg-[#232a31] rounded-lg shadow">
       {(!selectedStock || selectedStock.includes(".")) && (
       <div className="flex flex-wrap gap-2 mb-4">
         {NEWS_CATEGORIES.map((cat) => (
@@ -67,8 +67,8 @@ export default function NewsPanel({ selectedStock, fullSymbol }) {
       {loading ? (
         <p className="text-sm text-gray-500 dark:text-gray-300">Loading news...</p>
       ) : articles.length > 0 ? (
-        <ul className="space-y-4">
-          {articles.slice(0, 5).map((article) => (
+        <ul className="space-y-4 max-h-[320px] overflow-y-auto pr-1 scrollbar-ultra-thin">
+          {articles.slice(0, 20).map((article) => (
             <li
               key={article.id || article.url}
               className="border-l-4 pl-3 border-emerald-400"

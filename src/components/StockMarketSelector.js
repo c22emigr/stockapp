@@ -67,7 +67,7 @@ export default function StockMarketSelector({ selectedMarket, onMarketChange, sh
     <div className="flex flex-col gap-2 md:flex-row md:items-center">
       {/* Desktop flag menu */}
       <h3 className="hidden lg:inline text-md mr-2 text-gray-900 dark:text-gray-100">Market today:</h3>
-      <div ref={scrollRef} className="hidden md:block overflow-x-auto max-w-[600px] scrollbar-thin mt-3">
+      <div ref={scrollRef} className="hidden md:block overflow-x-auto max-w-[600px] scrollbar-stock-selector mt-3">
         <div className="flex gap-2 w-max px-1 pb-[6px]">  
           {markets.map((market) => (
             <button
