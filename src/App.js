@@ -146,7 +146,7 @@ function App() {
 
     {/* HEADER */}
     <div className="flex justify-between items-center px-6 py-4 bg-white dark:bg-[#1d2228] shadow-md border-b border-gray-300 dark:border-gray-700">
-      <div className="text-xl font-bold text-emerald-500">
+      <div className="hidden lg:block text-xl font-bold text-emerald-500">
         Invest0iQ
       </div>
 
@@ -192,7 +192,7 @@ function App() {
       {/* Left 2/3. Chart section. 2 cols */}
       <div className="lg:col-span-2 flex flex-col items-center">
         {/* MARKET SELECTOR */}
-        <div className="mb-4">
+        <div className="flex justify-center md:justify-start items-center overflow-x-auto no-scrollbar gap-2 w-full px-2">
           <StockMarketSelector 
             selectedMarket={selectedMarket} 
             onMarketChange={(newMarket) => {
@@ -206,8 +206,8 @@ function App() {
             setShowModal={setShowModal}
           />
         </div>
-        <div className="w-full gap-4 max-w-[1100px] mx-auto bg-white dark:bg-[#232a31] rounded-lg shadow p-4">
-          <div className="p-4">
+        <div className="w-full max-w-[1100px] mx-auto bg-white dark:bg-[#232a31] rounded-lg shadow px-2 sm:px-4 py-4">
+          <div className="p-1">
             {loading && (
               <div className="absolute inset-0 flex items-center justify-center bg-white/70 dark:bg-[#232a31]/70 z-10 rounded-lg">
                 <Loader className="animate-spin text-emerald-500 w-8 h-8" />
@@ -225,14 +225,16 @@ function App() {
             <p className="text-sm text-gray-500 p-4">Select a stock to view the chart.</p>
           )}
           </div>
-        <div className="">
+        <div className="mt-8">
           <DateRangeSelector range={range} setRange={setRange} />
-          <ComparedStocksPanel
-            comparedSymbols={comparedSymbols}
-            removeComparedSymbol={removeComparedSymbol}
-            setSelectedSymbol={setSelectedSymbol}
-          />
         </div>
+          <div className="">
+            <ComparedStocksPanel
+              comparedSymbols={comparedSymbols}
+              removeComparedSymbol={removeComparedSymbol}
+              setSelectedSymbol={setSelectedSymbol}
+            />
+          </div>
         </div>
       </div>
 

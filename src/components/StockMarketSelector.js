@@ -91,7 +91,7 @@ export default function StockMarketSelector({ selectedMarket, onMarketChange, sh
       <div className="md:hidden">
         <Dialog>
           <DialogTrigger asChild>
-            <button className="px-3 py-2 rounded-md text-sm font-medium bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white border border-transparent hover:border-emerald-400">
+            <button className="px-3 py-2 mb-5 rounded-md text-sm font-medium bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white border border-transparent hover:border-emerald-400">
               Select Market
             </button>
           </DialogTrigger>

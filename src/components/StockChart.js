@@ -110,7 +110,7 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
   }
 
   return (
-    <div ref={chartRef} className="relative w-full h-[400px] transition-colors duration-300 bg-white dark:bg-[#232a31]">
+    <div ref={chartRef} className="relative w-full h-[250px] sm:h-[300px] md:h-[400px] transition-colors duration-300 bg-white dark:bg-[#232a31]">
       <div className="flex justify-end mb-2">
         <button
           onClick={toggleFullscreen}
