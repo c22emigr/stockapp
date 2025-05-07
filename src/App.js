@@ -35,6 +35,7 @@ function App() {
   const [extras, setExtras] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false); // Loading state
+  const [fullSymbol, setFullSymbol] = useState(""); // Full symbol with suffix needed for company news
 
   const [selectedMarket, setSelectedMarket] = useState(() => {  // Saves selected market
 
@@ -56,6 +57,10 @@ function App() {
     useEffect(() => {
       if (!selectedSymbol) return;
     
+      
+      const full = selectedMarket === "US" ? selectedSymbol : `${selectedSymbol}.${selectedMarket}`;
+      setFullSymbol(full); // fullsymbol for news
+
       let isCurrent = true;
     
       const fetchData = async () => {  // Fetches first stock
@@ -238,14 +243,14 @@ function App() {
         </div>
 
         <div className="lg:col-span-2 flex flex-col items-center">
-          <NewsPanel />
+          <NewsPanel selectedStock={selectedSymbol} fullSymbol={`${selectedSymbol}${selectedMarket}`} />
         </div>
         
       </div>
 
 
       {/* Right-side. info panel. 1 Col */}
-      <div className="flex flex-col gap-4 w-full items-center md:items-start place-self-center mt-[74px]">
+      <div className="flex flex-col gap-4 w-full items-center md:items-start place-self-center mt-[58px]">
         <div className="w-full max-w-[500px] lg:max-w-[560px] space-y-3">
         <div className="bg-white dark:bg-[#232a31] rounded-lg shadow p-4 text-center">
           <MiniDashboard stockdata={stocks} />

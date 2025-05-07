@@ -3,6 +3,7 @@ from flask_cors import CORS
 import yfinance as yf
 import pandas as pd
 import requests
+from datetime import datetime, timedelta
 
 
 FINNHUB_API_KEY = 'd04kqcpr01qspgm3lpqgd04kqcpr01qspgm3lpr0'
@@ -122,11 +123,34 @@ def get_stock():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/news', methods=['GET'])
-def get_news():
-    category = request.args.get('category', 'general')
-    articles = fetch_news_by_category(category)
-    return jsonify(articles)
+@app.route('/api/news/<symbol>')
+def get_stock_news(symbol):
+    clean_symbol = symbol.upper().split(":")[0].split(".")[0]
+
+    from_date = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
+    to_date = datetime.now().strftime('%Y-%m-%d')
+    url = f"https://finnhub.io/api/v1/company-news?symbol={clean_symbol}&from={from_date}&to={to_date}&token={FINNHUB_API_KEY}"
+
+    try:
+        res = requests.get(url)
+        res.raise_for_status()
+        return jsonify(res.json())
+    except requests.RequestException as e:
+        print(f"Error fetching stock news for {symbol}: {e}")
+        return jsonify([]), 500
+    
+@app.route('/api/news')
+def get_general_news():
+    category = request.args.get("category", "general")
+    url = f"https://finnhub.io/api/v1/news?category={category}&token={FINNHUB_API_KEY}"
+
+    try:
+        res = requests.get(url)
+        res.raise_for_status()
+        return jsonify(res.json())
+    except requests.RequestException as e:
+        print(f"Error fetching general news: {e}")
+        return jsonify([]), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
