@@ -15,7 +15,7 @@ import normalizeData from "./utils/normalizeData";
 import { div } from 'framer-motion/client';
 import StockMarketSelector from "./components/StockMarketSelector";
 import { Sun, Moon, Loader } from "lucide-react";
-
+import NewsPanel from './components/NewsPanel';
 
 function App() {
   const [searchInput, setSearchInput] = useState('');
@@ -236,7 +236,13 @@ function App() {
             />
           </div>
         </div>
+
+        <div className="lg:col-span-2 flex flex-col items-center">
+          <NewsPanel />
+        </div>
+        
       </div>
+
 
       {/* Right-side. info panel. 1 Col */}
       <div className="flex flex-col gap-4 w-full items-center md:items-start place-self-center mt-[74px]">

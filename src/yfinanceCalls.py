@@ -29,6 +29,16 @@ def fetch_sentiment(symbol):
         print("Sentiment error:", e)
     return None
 
+def fetch_news_by_category(category="general"):
+    url = f"{FINNHUB_BASE_URL}/news?category={category}&token={FINNHUB_API_KEY}"
+    try:
+        response = requests.get(url)
+        data = response.json()
+        return data[:6]  # limit to 6 articles
+    except Exception as e:
+        print("News fetch error:", e)
+    return []
+
 
 app = Flask(__name__)
 CORS(app)
@@ -111,6 +121,12 @@ def get_stock():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
+
+@app.route('/api/news', methods=['GET'])
+def get_news():
+    category = request.args.get('category', 'general')
+    articles = fetch_news_by_category(category)
+    return jsonify(articles)
+
 if __name__ == '__main__':
     app.run(debug=True)
