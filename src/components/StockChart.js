@@ -91,12 +91,13 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
       align: 'left',
     },
     xaxis: {
-      gridcolor: isDarkMode ? '#444' : '#ccc',
+      showgrid: false,
       tickfont: { size: 12 },
       type: 'date',
     },
     yaxis: {
-      gridcolor: isDarkMode ? '#444' : '#ccc',
+      showgrid: false,
+      showticklabels: false,
       tickfont: { size: 12 },
       rangemode: 'tozero',
     },
@@ -128,10 +129,7 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
           responsive: true,
           scrollZoom: true,
           displaylogo: false,
-          modeBarButtonsToRemove: [
-            "toImage", "sendDataToCloud", "lasso2d", "select2d"
-          ],
-          modeBarButtonsToAdd: ["toggleFullscreen"]
+          displayModeBar: false,
         }}
         onHover={(event) => {
           const { points } = event;
@@ -142,6 +140,7 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
             y: point.y,
             close: point.customdata,
             symbol: point.data.name,
+            color: point.fullData.line.color, // Line color dot for tooltip
             top: event.event.clientY - chartRect.top,
             left: event.event.clientX - chartRect.left
           });
@@ -158,7 +157,11 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
           }}
         >
           <p className="text-xs text-white font-semibold">
-            {hoverData.symbol} — {hoverData.x}
+          <span
+            className="w-2 h-2 rounded-full mr-1 inline-block"
+            style={{ backgroundColor: hoverData.color }}
+          ></span>
+            {hoverData.symbol}  -  {hoverData.x}
           </p>
           <p className="text-emerald-400 text-base font-bold">
             ${hoverData.close.toFixed(2)}
