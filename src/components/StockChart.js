@@ -42,10 +42,16 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
     traces.push({
       x: data.map(d => d.Date),
       y: data.map(d => d.Normalized),
+      customdata: data.map(d => d.Close),
       name: selectedSymbol,
       type: "scatter",
       mode: "lines",
-      line: { color: "#4ade80", width: 2 }
+      line: { color: "#4ade80", width: 2 },
+      hovertemplate: `
+      <b>%{x}</b><br>
+      <span style="color:#10b981;">Raw Close:</span> %{customdata:.2f}<br>
+      <span style="color:#f59e0b;">% Change:</span> %{y:.2f}%
+      <extra></extra>`,
     });
   }
 
@@ -57,13 +63,19 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
     traces.push({
       x: series.map(d => d.Date),
       y: series.map(d => d.Normalized),
+      customdata: series.map(d => d.Close),
       name: symbol,
       type: "scatter",
       mode: "lines",
       line: {
         color: ["#ff7300", "#387908", "#8884d8", "#ffc658", "#82ca9d", "#deed57"][i % 6],
         width: 2
-      }
+      },
+      hovertemplate:  `
+      <b>%{x}</b><br>
+      <span style="color:#10b981;">Raw Close:</span> %{customdata:.2f}<br>
+      <span style="color:#f59e0b;">% Change:</span> %{y:.2f}%
+      <extra></extra>`,
     });
   });
 }
@@ -74,8 +86,14 @@ export default function StockChart({ data, comparisonData, selectedSymbol, darkM
     plot_bgcolor: isDarkMode ? '#232a31' : '#ffffff' ,
     font: { color: isDarkMode ? '#fff' : '#000' },
     hoverlabel: {
-      bgcolor: isDarkMode ? '#232a31' : '#ffffff',
-      font: { color: isDarkMode ? '#000' : '#fff', size: 12 }
+      bgcolor: isDarkMode ? '#1f2937' : '#f3f4f6', // Tailwind gray-800 / gray-100
+      bordercolor: isDarkMode ? '#10b981' : '#059669', // emerald-500/600 
+      font: {
+        color: isDarkMode ? '#fefefe' : '#111827', 
+        size: 13,
+        family: "'Inter', sans-serif"
+      },
+      align: 'left',
     },
     xaxis: {
       gridcolor: isDarkMode ? '#444' : '#ccc',
