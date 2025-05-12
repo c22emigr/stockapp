@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import yfinance as yf
 import pandas as pd
@@ -158,6 +158,19 @@ def get_general_news():
     except requests.RequestException as e:
         print(f"Error fetching general news: {e}")
         return jsonify([]), 500
+    
+# Serve React frontend
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_react(path):
+    root_dir = Path(__file__).resolve().parent.parent.parent  # goes from src/backend/ to root
+    build_dir = root_dir / "build"
+
+    file_path = build_dir / path
+    if file_path.exists() and not file_path.is_dir():
+        return send_from_directory(build_dir, path)
+    else:
+        return send_from_directory(build_dir, "index.html")
 
 if __name__ == '__main__':
     app.run(

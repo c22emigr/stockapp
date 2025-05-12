@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: stockapp
+    env: python
+    buildCommand: |
+      npm install && npm run build
+      pip install -r src/backend/requirements.txt
+    startCommand: gunicorn src.backend.yfinanceCalls:app
+    envVars:
+      - key: FINNHUB_API_KEY
+        sync: false
