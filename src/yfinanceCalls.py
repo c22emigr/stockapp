@@ -11,7 +11,12 @@ import os
 env_path = Path(__file__).resolve().parent / "backendsecrets" / ".env"
 load_dotenv(dotenv_path=env_path)
 
+if not os.environ.get("RENDER"):
+    env_path = Path(__file__).resolve().parent / "../backendsecrets/.env"
+    load_dotenv(dotenv_path=env_path)
+
 FINNHUB_API_KEY = os.getenv("FINNHUB_API_KEY")
+
 FINNHUB_BASE_URL = 'https://finnhub.io/api/v1'
 
 def fetch_recommendation(symbol):
@@ -157,4 +162,8 @@ def get_general_news():
         return jsonify([]), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(
+        debug=True,
+        host='0.0.0.0',
+        port=int(os.environ.get('PORT', 5000))
+    )
