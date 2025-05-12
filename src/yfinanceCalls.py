@@ -54,10 +54,6 @@ def fetch_news_by_category(category="general"):
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/")
-def home():
-    return "Backend is running"
-
 @app.route('/api/stock', methods=['GET'])
 def get_stock():
     symbol = request.args.get('symbol')
