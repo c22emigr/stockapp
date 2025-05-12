@@ -3,9 +3,10 @@ services:
     name: stockapp
     env: python
     buildCommand: |
-      npm install && npm run build
-      pip install -r src/backend/requirements.txt
-    startCommand: gunicorn src.backend.yfinanceCalls:app
-    envVars:
-      - key: FINNHUB_API_KEY
-        sync: false
+      cd src
+      npm install
+      npm run build
+    startCommand: gunicorn backend.yfinanceCalls:app
+    buildFilter:
+      paths:
+        - src/*
