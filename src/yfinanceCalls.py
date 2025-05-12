@@ -19,6 +19,7 @@ FINNHUB_API_KEY = os.getenv("FINNHUB_API_KEY")
 
 FINNHUB_BASE_URL = 'https://finnhub.io/api/v1'
 
+
 def fetch_recommendation(symbol):
     url = f"{FINNHUB_BASE_URL}/stock/recommendation?symbol={symbol}&token={FINNHUB_API_KEY}"
     try:
@@ -52,6 +53,10 @@ def fetch_news_by_category(category="general"):
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route("/")
+def home():
+    return "Backend is running"
 
 @app.route('/api/stock', methods=['GET'])
 def get_stock():
