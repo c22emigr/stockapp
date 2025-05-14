@@ -162,14 +162,14 @@ def get_general_news():
 @app.route('/static/<path:filename>')
 def serve_static(filename):
     root_dir = Path(__file__).resolve().parent.parent
-    return send_from_directory(root_dir / "frontend" / "build" / "static", filename)
+    return send_from_directory(root_dir / "build" / "static", filename)
    
 # Serve React frontend
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_react(path):
     root_dir = Path(__file__).resolve().parent.parent
-    build_dir = root_dir / "frontend" / "build"
+    build_dir = root_dir / "build"
 
     file_path = build_dir / path
     if file_path.exists() and not file_path.is_dir():
