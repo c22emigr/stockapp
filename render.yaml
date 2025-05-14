@@ -1,14 +1,10 @@
 services:
   - type: web
-    name: stock-backend
+    name: stockapp
     env: python
-    buildCommand: pip install -r backend/requirements.txt
+    buildCommand: |
+      cd frontend && npm install && npm run build
+      cp -r frontend/build ./build
+      pip install -r backend/requirements.txt
     startCommand: python backend/yfinanceCalls.py
-    rootDir: backend
-
-  - type: web
-    name: stock-frontend
-    env: static
-    buildCommand: npm install && npm run build
-    staticPublishPath: build
-    rootDir: frontend
+    rootDir: .
