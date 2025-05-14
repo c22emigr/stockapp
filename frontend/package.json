@@ -2,6 +2,7 @@
   "name": "stockapp",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.11",
     "@radix-ui/react-slot": "^1.2.0",
