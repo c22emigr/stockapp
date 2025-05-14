@@ -163,8 +163,8 @@ def get_general_news():
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_react(path):
-    root_dir = Path(__file__).resolve().parent.parent.parent  # goes from src/backend/ to root
-    build_dir = root_dir / "build"
+    root_dir = Path(__file__).resolve().parent.parent  # backend/
+    build_dir = root_dir / "frontend" / "build"        # correct path
 
     file_path = build_dir / path
     if file_path.exists() and not file_path.is_dir():
