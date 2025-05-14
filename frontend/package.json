@@ -35,7 +35,8 @@
     ],
     "rules": {
       "no-unused-vars": "warn",
-      "react-hooks/exhaustive-deps": "warn"
+      "react-hooks/exhaustive-deps": "warn",
+      "no-lone-blocks": "warn"
     }
   },
   "browserslist": {
