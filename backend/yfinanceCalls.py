@@ -9,7 +9,7 @@ from pathlib import Path
 import os
 
 if not os.environ.get("RENDER"):
-    env_path = Path(__file__).resolve().parent.parent / "backendsecrets" / ".env"
+    env_path = Path(__file__).resolve().parent / "backendsecrets" / ".env"
     load_dotenv(dotenv_path=env_path)
 
 FINNHUB_API_KEY = os.getenv("FINNHUB_API_KEY")

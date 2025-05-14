@@ -1,12 +1,14 @@
 services:
   - type: web
-    name: stockapp
+    name: stock-backend
     env: python
-    buildCommand: |
-      cd src
-      npm install
-      npm run build
-    startCommand: gunicorn backend.yfinanceCalls:app
-    buildFilter:
-      paths:
-        - src/*
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: python backend/yfinanceCalls.py
+    rootDir: backend
+
+  - type: web
+    name: stock-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: build
+    rootDir: frontend
