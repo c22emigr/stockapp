@@ -9,6 +9,8 @@ Front-end is React with tailwindcss
 Features to be added:
   Stock Comparison [x],
   Add more stocks [],
+  Conditional render for consensus & recommendations [],
+  1 column layout on md screen size [],
   Currency Conversions [],
   Fullscreen Graphs [],
   Fetch Market News []
