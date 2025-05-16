@@ -143,9 +143,13 @@ function App() {
 
     {/* HEADER */}
     <div className="flex justify-between items-center px-6 py-4 bg-white dark:bg-[#1d2228] shadow-md border-b border-gray-300 dark:border-gray-700">
-      <div className="hidden lg:block text-xl font-bold text-emerald-500">
-        Invest0iQ
-      </div>
+    <div className="hidden lg:block">
+      <img
+        src={DarkMode ? "/svgvit.svg" : "/svgsvart.svg"}
+        alt="Invest0iQ Logo"
+        className="h-6 w-auto transition-opacity duration-250"
+      />
+    </div>
 
     <div className="flex gap-2 items-center">
       {/* Search Stocks Component */}
