@@ -11,6 +11,7 @@ import { Button } from "./ui/button";
 
 const CompanyOverview = ({info}) => {
     const [showSummary, setShowSummary] = useState(false);
+    void setShowSummary;
     if (!info) return null;
 
     const {
