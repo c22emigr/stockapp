@@ -1,3 +1,4 @@
+import { PauseCircle, PlusCircle, MinusCircle } from "lucide-react";
 
 const RecommendationCard = ({ recommendation }) => {
   if (!recommendation) return null;
