@@ -42,7 +42,7 @@ export default function NewsPanel({ selectedStock, fullSymbol }) {
     };
 
     fetchNews();
-  }, [selectedStock, category]);
+  }, [selectedStock, category, fullSymbol]);
 
   return (
     <div className="p-4 bg-white dark:bg-[#232a31] rounded-lg shadow">
