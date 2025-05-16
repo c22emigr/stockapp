@@ -45,7 +45,6 @@ function App() {
     setFilteredResults([]);       // clears suggestions
   };
   
-  const [isFullscreen, setIsFullscreen] = useState(false); // State to track fullscreen on/off
   const [comparedSymbols, setComparedSymbols] = useState([]); // Symbols to compare
   const [comparisonData, setComparisonData] = useState({}); // Stock data for each symbol
 
@@ -128,13 +127,11 @@ function App() {
   }; 
 
 
-  {/* DARK MODE LOCAL STORAGE */}
   useEffect(() => {
     localStorage.setItem("darkMode", DarkMode.toString());
     document.documentElement.classList.toggle("dark", DarkMode); 
   }, [DarkMode]);
 
-  {/* STOCK MARKET SELECTOR LOCAL STORAGE */}
   useEffect(() => {
     localStorage.setItem("selectedMarket", selectedMarket);
   }, [selectedMarket]);
