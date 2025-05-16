@@ -16,6 +16,7 @@ import { div } from 'framer-motion/client';
 import StockMarketSelector from "./components/StockMarketSelector";
 import { Sun, Moon, Loader } from "lucide-react";
 import NewsPanel from './components/NewsPanel';
+import API_BASE from '../utils/apiBase';
 
 function App() {
   const [searchInput, setSearchInput] = useState('');
@@ -67,7 +68,7 @@ function App() {
         console.time();
         setLoading(true);
         try {
-          const res = await fetch(`http://localhost:5000/api/stock?symbol=${selectedSymbol}${selectedMarket}&range=${range}`);
+          const res = await fetch(`${API_BASE}/stock?symbol=${selectedSymbol}${selectedMarket}&range=${range}`);
           const stockdata = await res.json();
           const normalized = normalizeData(stockdata.records);
           if (!isCurrent || !normalized?.length) {
@@ -78,7 +79,7 @@ function App() {
           const newComparisonData = {};  // Fetches compared stock
           for (const symbol of comparedSymbols) {
             const full = symbol.includes(".") ? symbol : `${symbol}${selectedMarket}`;
-            const res = await fetch(`http://localhost:5000/api/stock?symbol=${full}&range=${range}`);
+            const res = await fetch(`${API_BASE}/stock?symbol=${full}&range=${range}`);
             const json = await res.json();
             const norm = normalizeData(json.records);
             if (!norm?.length) continue;
