@@ -120,7 +120,6 @@ export default function StockSearch({
   };  
   
 
-    {/* ARROW KEYS + ENTER FOR NAVIGATION */}
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
     const handleKeyDown = (e) => {
       if (filteredResults.length === 0) return;
