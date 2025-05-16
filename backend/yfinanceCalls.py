@@ -48,7 +48,7 @@ def fetch_news_by_category(category="general"):
     return []
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=None)
 CORS(app)
 
 @app.route('/api/stock', methods=['GET'])
@@ -161,21 +161,20 @@ def get_general_news():
 
 @app.route('/static/<path:filename>')
 def serve_static(filename):
-    root_dir = Path(__file__).resolve().parent.parent
-    return send_from_directory(root_dir / "build" / "static", filename)
-   
-# Serve React frontend
+    static_dir = Path(__file__).resolve().parent.parent / 'frontend' / 'build' / 'static'
+    return send_from_directory(static_dir, filename)
+
+# Serve the React app
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve_react(path):
-    root_dir = Path(__file__).resolve().parent.parent
-    build_dir = root_dir / "build"
-
+    build_dir = Path(__file__).resolve().parent.parent / 'frontend' / 'build'
     file_path = build_dir / path
+
     if file_path.exists() and not file_path.is_dir():
         return send_from_directory(build_dir, path)
     else:
-        return send_from_directory(build_dir, "index.html")
+        return send_from_directory(build_dir, 'index.html')
 
 if __name__ == '__main__':
     app.run(
