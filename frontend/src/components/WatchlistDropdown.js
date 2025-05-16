@@ -1,5 +1,4 @@
-import { Loader } from "lucide-react";
-import react, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { toggleFavorite } from "../utils/watchlist";
 import usStocks from "../data/us_stocks.json";
 import { Star, X } from "lucide-react";
