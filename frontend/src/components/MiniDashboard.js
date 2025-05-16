@@ -7,6 +7,7 @@ const MiniDashboard = ({ stockdata }) => {
     const latest = stockdata[stockdata.length -1];
     const prev = stockdata[stockdata.length -2] || latest;
     const stockname = stockdata[0]?.stockname || "";
+    void stockname;
 
     const change = latest.Close - prev.Close;
     const changePct = ((change / prev.Close) * 100).toFixed(2);
