@@ -1,6 +1,3 @@
-import React, { useState } from "react";
-import { ArrowUpRight, PauseCircle, ArrowDownRight, PlusCircle, MinusCircle } from "lucide-react";
-
 
 const RecommendationCard = ({ recommendation }) => {
   if (!recommendation) return null;
