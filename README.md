@@ -1,4 +1,5 @@
 # Invest0iq Stockapp
+https://stockapp-wq5k.onrender.com/ 
 
 Uses python library yfinance to get stock data from Yahoo Finance which include the following stock markets; Tokyo Stock Exchange (TSE), OMX Stockholm (OMXSTO), XETRA / Frankfurt Stock Exchange, 
 TSX – Toronto Stock Exchange, LSE – London Stock Exchange, NYSE, NASDAQ, AMEX. Finnhub API is used for getting market sentiment and analyst recommendations.
@@ -7,6 +8,7 @@ Front-end is React with tailwindcss
 
 Features to be added:
   Stock Comparison [x],
+  Add more stocks [],
   Currency Conversions [],
   Fullscreen Graphs [],
   Fetch Market News []
