@@ -16,7 +16,7 @@ import { div } from 'framer-motion/client';
 import StockMarketSelector from "./components/StockMarketSelector";
 import { Sun, Moon, Loader } from "lucide-react";
 import NewsPanel from './components/NewsPanel';
-import API_BASE from '../utils/apiBase';
+import API_BASE from './utils/apiBase';
 
 function App() {
   const [searchInput, setSearchInput] = useState('');
