@@ -37,7 +37,7 @@ export default function StockSearch({
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [setFilteredResults]);
   
 
   function getCountryCodeFromMarket(market) {
