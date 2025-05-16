@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import Plot from "react-plotly.js";
 import { Maximize, Minimize } from "lucide-react";
 

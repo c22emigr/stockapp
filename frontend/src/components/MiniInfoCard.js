@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Tooltip } from "react-tooltip";
 import { Info } from "lucide-react";
 

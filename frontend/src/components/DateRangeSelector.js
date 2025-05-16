@@ -1,4 +1,3 @@
-import React from "react";
 
 const DateRangeSelector = ({ range, setRange }) => {
   const ranges = ["1d", "5d", "1mo", "6mo", "1y", "max"];

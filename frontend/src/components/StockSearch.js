@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import usStocks from "../data/us_stocks.json";
 import Flag from 'react-world-flags';
 import { Search } from "lucide-react";
