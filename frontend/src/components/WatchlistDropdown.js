@@ -78,6 +78,7 @@ const WatchlistDropdown = ({ setSelectedSymbol }) => {
                 {/* Get full stock data to grab market info */}
                 {(() => {
                   const fullStock = usStocks.find(s => s.symbol === item.symbol);
+                  console.debug(fullStock); // prevent crash on build
                   const flagCode = getMarketFromSymbol(item.symbol);
                   return <Flag code={flagCode} className="w-5 h-5 shrink-0" />;
                 })()}
