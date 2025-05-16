@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './index.css';
-import usStocks from './data/us_stocks.json';
 import StockChart from './components/StockChart';
-import { ResponsiveContainer } from 'recharts';
 import StockSearch from './components/StockSearch';
 import MiniDashboard from './components/MiniDashboard';
 import CompanyOverview from './components/CompanyOverview';
@@ -12,7 +10,6 @@ import RecommendationCard from './components/RecommendationCard';
 import MiniInfoCard from './components/MiniInfoCard';
 import ComparedStocksPanel from './components/ComparedStocksPanel';
 import normalizeData from "./utils/normalizeData";
-import { div } from 'framer-motion/client';
 import StockMarketSelector from "./components/StockMarketSelector";
 import { Sun, Moon, Loader } from "lucide-react";
 import NewsPanel from './components/NewsPanel';
@@ -21,9 +18,7 @@ import API_BASE from './utils/apiBase';
 function App() {
   const [searchInput, setSearchInput] = useState('');
   const [selectedSymbol, setSelectedSymbol] = useState('');
-  const [imageBase64, setImageBase64] = useState(null);
   const [stocks, setStocks] = useState([]);
-  const [stockname, setStockname] = useState('');
   const [stockinfo, setStockinfo] = useState(null);
   const [filteredResults, setFilteredResults] = useState([]);
   const [DarkMode, setDarkMode] = useState(() => {
@@ -32,11 +27,11 @@ function App() {
   });
   const [range, setRange] = useState("5d");
   const [recommendation, setRecommendation] = useState(null);
-  const [finnhubData, setFinnhubData] = useState(null);
   const [extras, setExtras] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false); // Loading state
   const [fullSymbol, setFullSymbol] = useState(""); // Full symbol with suffix needed for company news
+  void fullSymbol;
 
   const [selectedMarket, setSelectedMarket] = useState(() => {  // Saves selected market
 
@@ -54,7 +49,6 @@ function App() {
   const [comparedSymbols, setComparedSymbols] = useState([]); // Symbols to compare
   const [comparisonData, setComparisonData] = useState({}); // Stock data for each symbol
 
-    {/* Fetch Stocks (First and Compared) */}
     useEffect(() => {
       if (!selectedSymbol) return;
     
